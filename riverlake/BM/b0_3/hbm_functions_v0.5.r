@@ -417,7 +417,8 @@ chainList.tracePlot <- function(chainList)
 {
   
   ##
-  par_old <- par()
+  par_mar_old <- par()$mar
+  par_oma_old <- par()$oma
   par(mfrow=c(4,2), mar=c(4,4,1,1), oma=c(0,0,0,0))
   
   ## assemble chains together
@@ -434,15 +435,15 @@ chainList.tracePlot <- function(chainList)
     ## plots
     plot(chain[,i],ylab=paste(colnames(chain)[i]), xlim=c(0,nrow(chain)/length(chainList)), type="l", col="white")
     # for(j in 1:length(chainList)){lines(1:length(chain[chain[,"nChain"]==j ,i]), chain[chain[,"nChain"]==j,i], col=grey(1-(0.2 + 0.6*j/length(chainList))))}
-    for(j in 1:length(chainList)){lines(1:length(chain[chain[,"nChain"]==j ,i]), chain[chain[,"nChain"]==j,i], col=rainbow(length(chainList),start=0.5,end=0.75,alpha=0.5)[j])}
+    for(j in 1:length(chainList)){lines(1:length(chain[chain[,"nChain"]==j ,i]), chain[chain[,"nChain"]==j,i], col=rainbow(length(chainList),start=0.75,end=0.5,alpha=0.5)[j])}
     ## hist
     hist(chain[,i],freq=F,main="", xlab="")
     # lines(density(chain[,i]), col="white")
     # for(j in 1:length(chainList)){lines(density(chain[chain[,"nChain"]==j,i]), col=grey(1-(0.2 + 0.6*j/length(chainList))))}
-    for(j in 1:length(chainList)){lines(density(chain[chain[,"nChain"]==j,i]), col=rainbow(length(chainList),start=0.5,end=0.75,alpha=0.5)[j])}
+    for(j in 1:length(chainList)){lines(density(chain[chain[,"nChain"]==j,i]), col=rainbow(length(chainList),start=0.75,end=0.5,alpha=0.5)[j])}
     
   }
-  par(par_old)
+  par(mfrow=c(1,1),mar=par_mar_old,oma=par_oma_old)
 }
 
 #

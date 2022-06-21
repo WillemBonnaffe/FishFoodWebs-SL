@@ -177,9 +177,8 @@ dTarget    = function(omega) logPosWrap(unwrap(omega))
 chain = NULL
 for(i in 1:3)
 {
-	  omega_0        = rnorm(n_sd_lik + 2 + n_beta + n_mis,0,0.1)
+	omega_0        = rnorm(n_sd_lik + 2 + n_beta + n_mis,0,0.1)
     res            = optim(par=omega_0,fn=function(x)-dTarget(x),method="BFGS",control=list(trace=TRUE,maxit=100)) 
-    # res            = optim(par=res$par,fn=function(x)-dTarget(x),method="BFGS",control=list(trace=TRUE,maxit=100)) 
     chain          = rbind(chain,c(res$value,unwrap(res$par)))
 }
 
@@ -194,9 +193,9 @@ for(i in 1:3)
 {
 	omega_0        = omega_map # rnorm(n_sd_lik + 2 + n_beta + n_mis,0,.1)
 	# chain          = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = 1000000))$chainList
-  chain          = AMC(dTarget   = dTarget,
+    chain          = AMC(dTarget   = dTarget,
                      Theta_0   = omega_0,
-                     scale_p_0 = 8*2.38/sqrt(length(omega_0)),
+                     scale_p_0 = 4*2.38/sqrt(length(omega_0)),
                      Sigma_p_0 = diag(1,length(omega_0)),
                      itVect    =  c(10000,100000),
                      adaptShape= T,
@@ -224,7 +223,7 @@ for(i in 1:3)
 
 ## burn and thin
 chainList_thinned = chainList.thin(chainList.burn(chainList,1:50000))
-# save(file="out/model_4_maxTL_chain.RData",chainList_thinned)
+save(file="out/model_4_maxTL_chain.RData",chainList_thinned)
  
 ## visualise
 # chainList.acPlot(chainList_thinned)
