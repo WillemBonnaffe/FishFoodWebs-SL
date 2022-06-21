@@ -13,7 +13,7 @@ Author: Willem Bonnaffé (w.bonnaffe@gmail.com)
 
 ## Method
 
-We use a hierarchical Bayesian modelling approach.
+We use a hierarchical Bayesian modelling approach. The full posterior distribution is defined as follows:
 
 $$ p(\beta, \Sigma, \mu_{mis}, \sigma_{mis}| Yobs, Ymis) \propto ~ 
 \prod^{I,J} ~
@@ -24,6 +24,51 @@ p(\beta) ~
 p(\Sigma) ~
 p(\mu_{mis}) ~ 
 p(\sigma_{mis}) $$
+
+where 
+$\beta$ 
+are the mean parameters, 
+$\Sigma$ 
+are the standard deviations of each hydrographic bassin,
+$\mu_{mis}$ 
+and 
+$\sigma_{mis}$ 
+are the mean and standard deviation of the missing DBO observations, 
+$Yobs$ 
+and 
+$Ymis$ 
+are the response variables (either max or mean trophic level) for the missing and observed datasets, 
+$x_{mis}$ 
+are the missing DBO observations.
+$Yobs_{ij}$ 
+indicates the 
+$i^{th}$
+observation of the 
+$j^{th}$
+hydrographic bassin.
+
+The linear predictive model is given below:
+
+$$ Y_{ij} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + alt_i + \epsilon_j $$
+
+where 
+$\beta_0$
+is the intercept,
+$year$
+is the year since 201(?),
+$temp$
+is the temperature,
+$type$
+is the habitat,
+$dbo$
+the biochemical oxygen demand,
+$alt$
+the altitude,
+$\epsilon_i \sim \mathcal{N}(0,\Sigma_j)$
+is a random effect of hydrographic bassin.
+
+
+
 
 ## Results
 
