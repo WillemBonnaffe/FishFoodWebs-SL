@@ -337,8 +337,13 @@ colnames(chain_) = c("P","1","year","temp","temp^2","type","type*temp","dbo","db
 png(paste(pto,"/fig_6.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
 png(paste(pto,"/fig_7.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
 pdf(paste(pto,"/fig_8.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
-summaryTable     = chainList.summaryTab(list(chain_))[[1]]
-write.table(summaryTable,file=paste(pto,"/summary.csv",sep=""),sep=";")
+#
+## summary table
+summaryTable_     = chainList.summaryTab(list(chain_))[[1]]
+summaryTable     = cbind(rownames(summaryTable_),summaryTable_)
+colnames(summaryTable) = c("name",colnames(summaryTable_))
+write.table(summaryTable,file=paste(pto,"/summary.csv",sep=""),sep=",",row.names=F,quote=F)
+
 
 ## VISUALISE VARIANCES POSTERIOR DISTRIBUTIONS ##
 chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,1:n_sd_lik])
