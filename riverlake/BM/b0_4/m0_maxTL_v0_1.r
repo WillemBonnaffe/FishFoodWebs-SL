@@ -263,7 +263,7 @@ png(paste(pto,"/fig_3.png",sep=""))
 #
 x = density(dbo,na.rm=T)$x
 y = density(dbo,na.rm=T)$y; y=y/max(y)
-plot(x,y,type="l",col="white",xlab="DBO (SU)",ylab="Density (SU)",main="Observed vs missing DBO")
+plot(x,y,type="l",col="white",xlab="DBO (SU)",ylab="Density (SU)",main=paste(response," ~ DBO distribution",sep=""))
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
 #
 dbo_mis = chainList.argmaxPost(chainList_thinned)[n_sd_lik + 1 + 1 + n_beta + 1:n_mis]
@@ -290,7 +290,7 @@ png(paste(pto,"/fig_4.png",sep=""))
 #
 x = density(res_obs,na.rm=T)$x
 y = density(res_obs,na.rm=T)$y; y=y/max(y)
-plot(x,y,type="l",col="white",xlab="Residuals",ylab="Density (SU)",main="Observed vs missing DBO residuals")
+plot(x,y,type="l",col="white",xlab="Residuals",ylab="Density (SU)",main=paste(response," ~ residuals",sep=""))
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
 #
 x = density(res_mis,na.rm=T)$x
@@ -320,7 +320,7 @@ for(i in 1:n_sd_lik)
     res_obs_th  = rnorm(length(res_obs),0,sdVect[i])
     res_mis_th  = rnorm(length(res_mis),0,sdVect[i])
     #
-    plot(-1:1,xlim=c(-1,1)*1,ylim=c(-1,1)*1,xlab="Theoretical quantiles",ylab="Residuals",main=paste("qqplot for bassin ",i,sep=""),cex=0)
+    plot(-1:1,xlim=c(-1,1)*1,ylim=c(-1,1)*1,xlab="Theoretical quantiles",ylab="Residuals",main=paste(response," ~ bassin ",i,sep=""),cex=0)
     lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
     lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
     lines(-1:1,-1:1,lty=2)
