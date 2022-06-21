@@ -15,8 +15,15 @@ Author: Willem Bonnaffé (w.bonnaffe@gmail.com)
 
 We use a hierarchical Bayesian modelling approach.
 
-$$ p(\beta, \Sigma | Yobs}) \propto p(Yobs_{ij} $$
-$$ | \beta, \Sigma_{j}) p(Ymis_{ij}|\beta, \Sigma_{j}, x_{mis}) p(x_{mis} | \mu_{mis}, \sd_{mis}) p(\beta) p(\Sigma) p(\mu_{mis}) p(\sd_{mis}) $$
+$$ p(\beta, \Sigma, \mu_{mis}, \sigma_{mis}| Yobs, Ymis) \propto ~ 
+\prod^{I,J} ~
+p(Yobs_{ij} | \beta, \Sigma_{j}) ~
+p(Ymis_{ij} |\beta, \Sigma_{j}, x_{mis}) ~
+p(x_{mis} | \mu_{mis}, \sigma_{mis}) ~
+p(\beta) ~
+p(\Sigma) ~
+p(\mu_{mis}) ~ 
+p(\sigma_{mis}) $$
 
 ## Results
 
