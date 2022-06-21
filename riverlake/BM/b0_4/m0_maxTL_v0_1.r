@@ -43,7 +43,7 @@ std = function(x) (x-mean(x,na.rm=T))/sd(x,na.rm=T)
 library(Rcpp)
 sourceCpp("cpp/DEMCpp_v0.1.cpp")
 source("f_AMC_v0_2.r")
-source("f_HBM_v0_5.r")
+source("f_HBM_v0_6.r")
 
 ## load dataset
 load("data/dataset_lake_stream_v0_1.rda")
@@ -337,6 +337,8 @@ colnames(chain_) = c("P","1","year","temp","temp^2","type","type*temp","dbo","db
 png(paste(pto,"/fig_6.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
 png(paste(pto,"/fig_7.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
 pdf(paste(pto,"/fig_8.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
+summaryTable     = chainList.summaryTab(list(chain_))[[1]]
+write.table(summaryTable,file=paste(pto,"/summary.csv",sep=""),sep=";")
 
 ## VISUALISE VARIANCES POSTERIOR DISTRIBUTIONS ##
 chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,1:n_sd_lik])
