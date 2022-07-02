@@ -72,7 +72,7 @@ response = "Max. troph. level"
 data = data[-which(is.na(data$CdBH)),]
 
 ## response variable
-Y = data$max_troph_lvl
+Y = std(data$max_troph_lvl)
 # Y = data$w_trph_lvl_avg
 # Y = data$connectance
 
@@ -85,8 +85,8 @@ type    = (data$type == "lake")*1
 rich    = std(data$richness)
 
 ## marix of explanatory variables
-X_obs   = cbind(1,year,temp,temp^2,type,type*temp,dbo,dbo^2,type*dbo,temp*dbo,alt)
-X_mis   = cbind(1,year,temp,temp^2,type,type*temp,  1,    1,type*1  ,  temp*1,alt)
+X_obs   = cbind(1,year,temp,temp^2,type,type*temp,dbo,dbo^2,type*dbo,temp*dbo,alt,rich)
+X_mis   = cbind(1,year,temp,temp^2,type,type*temp,  1,    1,type*1  ,  temp*1,alt,rich)
 n_beta  = ncol(X_obs)
 
 ## missing values
@@ -207,7 +207,7 @@ for(i in 1:1)
 }
 
 ## burn and thin
-chainList_thinned = chainList.thin(chainList.burn(chainList,1:500000))
+chainList_thinned = chainList.thin(chainList.burn(chainList,1:750000))
 save(file=paste(pto,"/chain.RData",sep=""),chainList_thinned)
  
 #
@@ -233,7 +233,7 @@ for(i in 1:2)
 {
     ## predictions
     x        = seq(min(temp),max(temp),0.1)
-    X_pred   = cbind(1,0,x,x^2,(i-1),(i-1)*x,0,0,0,0,0)
+    X_pred   = cbind(1,0,x,x^2,(i-1),(i-1)*x,0,0,0,0,0,0)
     pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred,x_[-1][n_sd_lik + 1 + 1 + 1:n_beta]))
     polygon(x=c(X_pred[,3],rev(X_pred[,3])),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(i+1,alpha=0.5))
     # lines(X_pred[,3],Yhat(X_pred,beta_map),col=i+1)
@@ -252,7 +252,7 @@ for(i in 1:2)
 {
     ## predictions
     x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
-    X_pred   = cbind(1,0,0,0,(i-1),0,x,x^2,(i-1)*x,0,0)
+    X_pred   = cbind(1,0,0,0,(i-1),0,x,x^2,(i-1)*x,0,0,0)
     pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred,x_[-1][n_sd_lik + 1 + 1 + 1:n_beta]))
     polygon(x=c(X_pred[,7],rev(X_pred[,7])),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(i+1,alpha=0.5))
     # lines(X_pred[,7],Yhat(X_pred,beta_map),col=i+1)
@@ -328,7 +328,7 @@ for(i in 1:n_sd_lik)
     plot(-1:1,xlim=c(-1,1)*4*sd(res_obs_th),ylim=c(-1,1)*4*sd(res_obs),xlab="Theoretical quantiles",ylab="Residuals",main=paste(response," ~ bassin ",i,sep=""),cex=0)
     lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
     lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
-    lines(-1:1,-1:1,lty=2)
+    lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
     #
     legend("bottomright",legend=c("Observed","Missing"),col=adjustcolor(c("blue","red"),0.4),lty=1,bty="n")
 }
@@ -338,7 +338,7 @@ dev.off()
 
 ## VISUALISE PARAMETER POSTERIOR DISTRIBUTIONS ##
 chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,n_sd_lik + 1 + 1 + 1:n_beta])
-colnames(chain_) = c("P","1","year","temp","temp^2","type","type*temp","dbo","dbo^2","type*dbo","temp*dbo","alt")
+colnames(chain_) = c("P","1","year","temp","temp^2","type","type*temp","dbo","dbo^2","type*dbo","temp*dbo","alt","rich")
 png(paste(pto,"/fig_6.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
 png(paste(pto,"/fig_7.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
 pdf(paste(pto,"/fig_8.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
