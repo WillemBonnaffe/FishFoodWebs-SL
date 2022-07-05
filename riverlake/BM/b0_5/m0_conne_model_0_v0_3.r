@@ -434,7 +434,7 @@ rho_sd   = apply(rho_,2,sd)
 d_mean   = apply(  d_,2,mean)
 #
 ## visualise correlation with distance
-pdf(paste(pto,"/fig_18.pdf",sep=""));
+png(paste(pto,"/fig_18.png",sep=""));
 plot(d_mean,rho_mean,xlim=c(min(D),max(D)),ylim=c(0,1))
 polygon(x=c(d_mean,rev(d_mean)),y=c(rho_mean+2*rho_sd,rev(rho_mean-2*rho_sd)),border=NA,col=grey(0.5,alpha=0.25))
 lines(d_mean,rho_mean,col="red")
