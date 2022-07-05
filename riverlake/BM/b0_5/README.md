@@ -4,9 +4,17 @@ Author: Willem Bonnaffé (w.bonnaffe@gmail.com)
 
 ## Update log
 * 21-06-2022 - uploaded repository on Github
+* 05-07-2022 - created b0_5 
+             - Corrected under-dispersion of missing DBO observations
+             - introduced effect of richness in models
+             - introduced interaction between dbo and temperature
+             - removed average trophic level variable
+             - introduced connectance as response variable
+             - Cleaned repo structure 
 
 ## Next
-* xx-xx-xxxx - Correct under-dispersion of missing DBO observations.
+* xx-xx-xxxx - Perform model selection 
+* xx-xx-xxxx - Test robustness of results to spatial autocorrelation by modelling spatial covariation 
 
 ## Abstract
 
@@ -22,7 +30,7 @@ We use a hierarchical Bayesian modelling approach. The linear predictive model i
 
 $$ Yobs_{ij} \sim \mathcal{N}(\hat{Y}obs_{i},\Sigma_j) $$
 
-$$ \hat{Y}obs_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + alt_i $$
+$$ \hat{Y}obs_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + dbo_i \times temp_i + alt_i + rich_i $$
 
 where 
 $\beta_0$
@@ -37,6 +45,8 @@ $dbo$
 the biochemical oxygen demand,
 $alt$
 the altitude,
+$rich$
+the species richness,
 $\epsilon_i \sim \mathcal{N}(0,\Sigma_j)$
 is a random effect of hydrographic bassin.
 
@@ -89,29 +99,29 @@ hydrographic bassin.
 
 ## Results
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_maxTL/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_maxTL/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_avgTL/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_avgTL/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_2.png)
 
 Parameters mean estimates and confidence interval can be found here:
-https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_maxTL/summary.csv
-https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_avgTL/summary.csv
+https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/summary.csv
+https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/summary.csv
 
 ## Missing DBO distributions
 
 The missing DBO distributions are slightly under-dispersed.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_maxTL/fig_3.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_avgTL/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_3.png)
 
 ## Residuals
 
-The under-dispersion of missing DBO observation violates the assumption of normality.
+The under-dispersion of missing DBO residuals has been cured.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_maxTL/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_maxTL/fig_5.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_avgTL/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_4/out_avgTL/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_5.png)
 
 

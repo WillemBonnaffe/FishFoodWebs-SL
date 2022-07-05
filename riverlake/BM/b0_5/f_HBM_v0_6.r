@@ -324,18 +324,18 @@ chainList.summaryTab <- function(chainList)
 ## args: 
 # @chainList - list - of chains
 # @logTransform - true/false - whether parameters should be log transformed
-
 chainList.bayesPlot <- function(chainList, logTransform=F,labels=NULL)
 {
-  
   ##
   estimatesTab <- chainList.summary(chainList)[["estimates"]]
   estimatesTab <- estimatesTab[-1,]
   estimatesTab <- estimatesTab[order(estimatesTab[,"mean"]),]
 
+  ## plotting parameters
+    par(mar=c(5.1,6.1,4.1,4.1))
+
     ##
 	if(is.null(labels)) labels = rownames(estimatesTab)
-
   
   ##
   if(logTransform == T)
@@ -385,9 +385,11 @@ chainList.bayesPlot <- function(chainList, logTransform=F,labels=NULL)
     
     ##
     axis(side = 2, at = 1:nrow(estimatesTab), labels = labels, las=1)
-	
     
   }
+  ## plotting parameters
+  par(mar=c(5.1,5.1,4.1,4.1))
+
 }
 
 #
