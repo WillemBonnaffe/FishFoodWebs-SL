@@ -345,7 +345,7 @@ dev.off()
 chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,n_sd_lik + 1 + 1 + 1:n_beta])
 colnames(chain_) = c("P","1","year","temp","temp^2","type","type*temp","dbo","dbo^2","type*dbo","temp*dbo","alt","rich")
 png(paste(pto,"/fig_6.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
-png(paste(pto,"/fig_7.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
+png(paste(pto,"/fig_7.png",sep="")); chainList.bayesPlot(list(chain_),main=paste(response," ~ estimates ",sep="")); dev.off()
 pdf(paste(pto,"/fig_8.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
 #
 ## summary table
@@ -394,7 +394,7 @@ for(i in 1:length(x_))
 }
 res_ = c(res_obs,res_mis)
 #
-# ## compute correlation between residuals with distance
+## compute correlation between residuals with distance
 rho_    = NULL
 d_      = NULL
 for(i in 1:100)

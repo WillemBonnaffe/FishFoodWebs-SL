@@ -324,7 +324,7 @@ chainList.summaryTab <- function(chainList)
 ## args: 
 # @chainList - list - of chains
 # @logTransform - true/false - whether parameters should be log transformed
-chainList.bayesPlot <- function(chainList, logTransform=F,labels=NULL)
+chainList.bayesPlot <- function(chainList, logTransform=F,labels=NULL,main=NULL)
 {
   ##
   estimatesTab <- chainList.summary(chainList)[["estimates"]]
@@ -345,7 +345,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F,labels=NULL)
     estimatesTab <- log(estimatesTab)
     
     ##
-    plot(0:nrow(estimatesTab),cex=0, bty="n",xlim=c(min(c(0,estimatesTab)),max(c(0,estimatesTab))), xlab="Estimates", ylab="", yaxt="n",xaxt="n")
+    plot(0:nrow(estimatesTab),cex=0, bty="n",xlim=c(min(c(0,estimatesTab)),max(c(0,estimatesTab))), xlab="Estimates", ylab="", yaxt="n",xaxt="n",main=main)
     
     ##
     for(i in 1:nrow(estimatesTab))
@@ -373,7 +373,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F,labels=NULL)
   } else
   {
     ##
-    plot(0:nrow(estimatesTab),cex=0, bty="n",xlim=c(min(c(0,estimatesTab)),max(c(0,estimatesTab))), xlab="Estimates", ylab="", yaxt="n")
+    plot(0:nrow(estimatesTab),cex=0, bty="n",xlim=c(min(c(0,estimatesTab)),max(c(0,estimatesTab))), xlab="Estimates", ylab="", yaxt="n",main=main)
 	lines(c(0,0),c(1,nrow(estimatesTab)),lty=3)
     
     ##

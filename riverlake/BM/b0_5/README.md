@@ -30,7 +30,7 @@ We use a hierarchical Bayesian modelling approach. The linear predictive model i
 
 $$ Yobs_{ij} \sim \mathcal{N}(\hat{Y}obs_{i},\Sigma_j) $$
 
-$$ \hat{Y}obs_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + dbo_i \times temp_i + alt_i + rich_i $$
+$$ \hat{Y}obs_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + temp_i \times dbo_i + alt_i + rich_i $$
 
 where 
 $\beta_0$
@@ -54,7 +54,7 @@ We use a slightly different model to account for missing DBO observations:
 
 $$ Ymis_{ij} \sim \mathcal{N}(\hat{Y}mis_{i},\Sigma_j) $$
 
-$$ \hat{Y}mis_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + x_{mis,i} + x_{mis,i}^2 + type_i \times x_{mis,i} + alt_i $$
+$$ \hat{Y}mis_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + x_{mis,i} + x_{mis,i}^2 + type_i \times x_{mis,i} + temp_i \times x_{mis,i} + alt_i + rich_i$$
 
 $$ x_{mis,i} \sim \mathcal{N}(\mu_{mis},\sigma_{mis}) $$
 
@@ -103,6 +103,14 @@ hydrographic bassin.
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_2.png)
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_1.png)
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_7.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_7.png)
+
+For connectance, we find limited support for an effect of temperature as the interaction temperature by type, the linear and quadratic effect of temperature, as well as interaction with dbo were not found to be significant.
+We find a linear effect of dbo, but not quadratic.
+We find no evidence either for an effect of year on connectance.
+
+For maximum trophic level, only the quadratic effect of temperature is not significant. 
 
 Parameters mean estimates and confidence interval can be found here:
 https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/summary.csv
@@ -123,5 +131,6 @@ The under-dispersion of missing DBO residuals has been cured.
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_5.png)
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_4.png)
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_5.png)
+
 
 
