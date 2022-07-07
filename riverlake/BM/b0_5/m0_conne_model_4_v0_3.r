@@ -33,7 +33,7 @@
 ## 07-07-2022 - renamed model_1
 ##            - model selection => removed temp*dbo
 ##            - model selection => removed dbo^2
-##            - model selection => removed type*dbo
+##            - model selection => removed type*temp
 ##            - model selection => removed year
 
 

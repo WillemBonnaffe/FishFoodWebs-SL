@@ -159,7 +159,7 @@ pdf(paste(pto,"/fig_11.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off
 
 ## VISUALISE MISSING MEAN VARIANCE POSTERIOR DISTRIBUTIONS ##
 chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,c(idx_omega_mu_mis,idx_omega_sd_mis)])
-colnames(chain_) = c("P","sd_mis","mu_mis")
+colnames(chain_) = c("P","mu_mis","sd_mis")
 png(paste(pto,"/fig_12.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
 png(paste(pto,"/fig_13.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
 pdf(paste(pto,"/fig_14.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()

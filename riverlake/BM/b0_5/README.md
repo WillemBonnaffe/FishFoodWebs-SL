@@ -11,9 +11,9 @@ Author: Willem Bonnaffé (w.bonnaffe@gmail.com)
              - removed average trophic level variable
              - introduced connectance as response variable
              - Cleaned repo structure 
+* 07-07-2022 - Performed model selection 
 
 ## Next
-* xx-xx-xxxx - Perform model selection 
 * xx-xx-xxxx - Test robustness of results to spatial autocorrelation by modelling spatial covariation 
 
 ## Abstract
@@ -136,5 +136,34 @@ There is slight evidence for spatial autocorrelations in the residuals.
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_18.png)
 ![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_18.png)
 
+## Model selection
 
+We performed model selection by removing non-significant effects from the models.
+For the maximum trophic level, we removed the interaction temperature-dbo, the effect dbo^2, the interaction type-temperature, and the effect of the year.
+For the connectance, we removed only the quadratic effect of dbo^2.
+
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_7.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_7.png)
+
+Parameters mean estimates and confidence interval can be found here:
+https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/summary.csv
+https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/summary.csv
+
+## Missing DBO distributions
+
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_3.png)
+
+## Residuals
+
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_18.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_18.png)
 
