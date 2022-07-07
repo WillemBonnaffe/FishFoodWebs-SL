@@ -38,17 +38,17 @@ source("m1_conne_load_model_4.r")
 ## TRAIN ##
 ###########
 
-## optimisation
-chain = NULL
-for(i in 1:2)
-{
-	omega_0        = wrap(rPrior()) # rnorm(n_param,0,0.1)
-    res            = optim(par=omega_0,fn=function(x)-dTarget(x),method="BFGS",control=list(trace=TRUE,maxit=100)) 
-    chain          = rbind(chain,c(res$value,unwrap(res$par)))
-}
+# ## optimisation
+# chain = NULL
+# for(i in 1:2)
+# {
+#     omega_0        = wrap(rPrior()) # rnorm(n_param,0,0.1)
+#     res            = optim(par=omega_0,fn=function(x)-dTarget(x),method="BFGS",control=list(trace=TRUE,maxit=100)) 
+#     chain          = rbind(chain,c(res$value,unwrap(res$par)))
+# }
 
 ## MaP
-omega_map = wrap(chain[which.min(chain[,1]),-1])
+# omega_map = wrap(chain[which.min(chain[,1]),-1])
 # load("out/model_4_maxTL_chain.RData")
 # omega_map = wrap(chainList.argmaxPost(chainList))
 
@@ -56,15 +56,17 @@ omega_map = wrap(chain[which.min(chain[,1]),-1])
 chainList = list()
 for(i in 1:1)
 {
-	omega_0        = omega_map # rnorm(n_param,0,.1)
-	chain          = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = 1000))$chainList
+	omega_0        = wrap(rPrior()) # omega_map # rnorm(n_param,0,.1)
+	chain          = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = 10000))$chainList
 	chain[,-1]     = t(apply(chain[,-1],1,unwrap))
 	chainList[[i]] = chain
 }
 
 ## burn and thin
-chainList_thinned = chainList.thin(chainList.burn(chainList,1:100))
-save(file=paste(pto,"/chain.RData",sep=""),chainList_thinned)
+save(file=paste(pto,"/chain.RData",sep=""),chainList)
+chainList_thinned = chainList.thin(chainList.burn(chainList,1:5000))
+save(file=paste(pto,"/chain_thinned.RData",sep=""),chainList_thinned)
+
  
 #
 ###

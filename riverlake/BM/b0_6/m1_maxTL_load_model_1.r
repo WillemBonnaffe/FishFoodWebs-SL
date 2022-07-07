@@ -10,13 +10,6 @@
 ## update log:
 ## 07-07-2022 - created v0_0
 
-###############
-## FUNCTIONS ##
-###############
-
-#
-###
-
 ##############
 ## INITIATE ##
 ##############
@@ -36,6 +29,9 @@ data = dataset_lake_stream
 ## path to out
 pto = "out_maxTL_model_1"
 system(paste("mkdir ",pto,sep=""))
+
+## response
+response = "Max. troph. level"
 
 #
 ###
@@ -88,10 +84,12 @@ latt    = std(data$lat)
 locat   = stringToInteger(data$CdBH)
 
 ## marix of explanatory variables
-X_obs   = cbind(1,type,temp,temp^2,type*temp,dbo,type*dbo,temp*dbo,rich,year,alt)
-X_mis   = cbind(1,type,temp,temp^2,type*temp,  1,type*1  ,temp*1  ,rich,year,alt)
+X_obs   =                 cbind(1, type,temp,temp^2,type*temp,dbo,type*dbo,temp*dbo,rich,year,alt)
+X_mis   =                 cbind(1, type,temp,temp^2,type*temp,  1,type*1  ,temp*1  ,rich,year,alt)
+X_pred  = function(x,y,i) cbind(1,(i-1),   x,   x^2,  x*(i-1),  y, y*(i-1),     x*y,   0,   0,  0)
 n_beta  = ncol(X_obs)
 idx_par_mis = c(6:8)
+colnames(X_obs) = c("1","type","temp","temp^2","type*temp","dbo","type*dbo","temp*dbo","rich","year","alt")
 
 ## missing values
 idx_mis = which(is.na(dbo))
@@ -129,7 +127,14 @@ idx_sd_lik = c(locat[-idx_mis],locat[idx_mis])
 ###########
 
 ## global variable
-n_param = n_sd_lik + 2 + 2 + n_beta + n_mis
+## indexing parameters in omega vector
+idx_omega_sd_lik  = 1:n_sd_lik
+idx_omega_sd_mis  =   n_sd_lik + 1
+idx_omega_rho     =   n_sd_lik + 1 + 1:2
+idx_omega_mu_mis  =   n_sd_lik + 1 +   2 + 1
+idx_omega_beta    =   n_sd_lik + 1 +   2 + 1 + 1:n_beta
+idx_omega_xmis    =   n_sd_lik + 1 +   2 + 1 +   n_beta + 1:n_mis
+n_param           =   n_sd_lik + 1 +   2 + 1 +   n_beta +   n_mis
 
 ## autocorrelation function
 ac = function(x,rho) rho[1]*exp(-x/rho[2])
@@ -201,22 +206,26 @@ logPos     = function(Y_obs,X_obs,Y_mis,X_mis,x_mis,beta,sd_lik,rho,mu_mis,sd_mi
 ## wrappers
 logPosWrap  = function(omega) 
 {
-	sd_lik  = omega[1:n_sd_lik]
-	sd_mis  = omega[  n_sd_lik + 1]
-	rho     = omega[  n_sd_lik + 1 + 1:2]
-	mu_mis  = omega[  n_sd_lik + 1 +   2 + 1]
-	beta    = omega[  n_sd_lik + 1 +   2 + 1 + 1:n_beta] 
-	x_mis   = omega[  n_sd_lik + 1 +   2 + 1 +   n_beta + 1:n_mis] 
+	sd_lik  = omega[idx_omega_sd_lik]
+	sd_mis  = omega[idx_omega_sd_mis]
+	rho     = omega[idx_omega_rho]
+	mu_mis  = omega[idx_omega_mu_mis]
+	beta    = omega[idx_omega_beta]
+	x_mis   = omega[idx_omega_xmis]
 	return(logPos(Y_obs,X_obs,Y_mis,X_mis,x_mis,beta,sd_lik,rho,mu_mis,sd_mis,DM))
 }
-wrap        = function(omega) c(    log(omega[   1:(n_sd_lik + 1)]),
-                                sigmoid(omega[      n_sd_lik + 2]),
-                                    log(omega[      n_sd_lik + 3]),
-                                        omega[-c(1:(n_sd_lik + 3))])
-unwrap      = function(omega) c(    exp(omega[   1:(n_sd_lik + 1)]),
-                                  logit(omega[      n_sd_lik + 2]),
-                                    exp(omega[      n_sd_lik + 3]),
-                                        omega[-c(1:(n_sd_lik + 3))])
+wrap        = function(omega) c(    
+                                    log(omega[   idx_omega_sd_lik]),
+                                    log(omega[   idx_omega_sd_mis]),
+                                sigmoid(omega[   idx_omega_rho[1]]),
+                                    log(omega[   idx_omega_rho[2]]),
+                                        omega[c(idx_omega_mu_mis,idx_omega_beta,idx_omega_xmis)])
+unwrap      = function(omega) c(    
+                                    exp(omega[   idx_omega_sd_lik]),
+                                    exp(omega[   idx_omega_sd_mis]),
+                                  logit(omega[   idx_omega_rho[1]]),
+                                    exp(omega[   idx_omega_rho[2]]),
+                                        omega[c(idx_omega_mu_mis,idx_omega_beta,idx_omega_xmis)])
 dTarget     = function(omega) logPosWrap(unwrap(omega))
 
 #
