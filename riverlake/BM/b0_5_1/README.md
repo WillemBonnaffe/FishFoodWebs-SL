@@ -30,7 +30,7 @@ We use a hierarchical Bayesian modelling approach. The linear predictive model i
 
 $$ Yobs_{ij} \sim \mathcal{N}(\hat{Y}obs_{i},\Sigma_j) $$
 
-$$ \hat{Y}obs_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + temp_i \times dbo_i + alt_i + rich_i $$
+$$ \hat{Y}obs_{i} = \beta_0 + temp_i + temp_i^2 + type_i + type_i \times temp_i + dbo_i + dbo_i^2 + type_i \times dbo_i + temp_i \times dbo_i + temp_i \times dbo_i \times type_i + alt_i + rich_i + year_i $$
 
 where 
 $\beta_0$
@@ -54,7 +54,7 @@ We use a slightly different model to account for missing DBO observations:
 
 $$ Ymis_{ij} \sim \mathcal{N}(\hat{Y}mis_{i},\Sigma_j) $$
 
-$$ \hat{Y}mis_{i} = \beta_0 + year_i + temp_i + temp_i^2 + type_i + type_i \times temp_i + x_{mis,i} + x_{mis,i}^2 + type_i \times x_{mis,i} + temp_i \times x_{mis,i} + alt_i + rich_i$$
+$$ \hat{Y}mis_{i} = \beta_0 + temp_i + temp_i^2 + type_i + type_i \times temp_i + x_{mis,i} + x_{mis,i}^2 + type_i \times x_{mis,i} + temp_i \times x_{mis,i} + temp_i \times x_{mis,i} \times type_i  + alt_i + rich_i + year_i $$
 
 $$ x_{mis,i} \sim \mathcal{N}(\mu_{mis},\sigma_{mis}) $$
 
@@ -104,12 +104,12 @@ We find a linear effect of dbo, but not quadratic.
 We find no evidence either for an effect of year on connectance.
 For maximum trophic level, only the quadratic effect of temperature is not significant. 
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_7.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_7.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_7.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_7.png)
 
 Parameters mean estimates and confidence interval can be found here:
 https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/summary.csv
@@ -119,51 +119,20 @@ https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_
 
 The missing DBO distributions are slightly under-dispersed.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_3.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_3.png)
 
 ## Residuals
 
 The under-dispersion of missing DBO residuals has been cured.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_5.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_5.png)
 
 There is slight evidence for spatial autocorrelations in the residuals.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/fig_18.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_0/fig_18.png)
-
-## Model selection
-
-We performed model selection by removing non-significant effects from the models.
-For the maximum trophic level, we removed the interaction temperature-dbo, the effect dbo^2, the interaction type-temperature, and the effect of the year.
-For the connectance, we removed only the quadratic effect of dbo^2.
-
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_7.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_7.png)
-
-Parameters mean estimates and confidence interval can be found here:
-https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/summary.csv
-https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/summary.csv
-
-## Missing DBO distributions
-
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_3.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_3.png)
-
-## Residuals
-
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_5.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_5.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_4/fig_18.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_model_1/fig_18.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_18.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_18.png)
 
