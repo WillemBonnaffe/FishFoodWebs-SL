@@ -90,7 +90,7 @@ long    = std(data$long)
 latt    = std(data$lat)
 locat   = stringToInteger(data$CdBH)
 
-## marix of explanatory variables
+## matrix of explanatory variables
 X_obs   =                 cbind(1, type,temp,temp^2,dbo,type*dbo,rich,alt)
 X_mis   =                 cbind(1, type,temp,temp^2,  1,type*1  ,rich,alt)
 X_pred  = function(x,y,i) cbind(1,(i-1),   x,   x^2,  y, y*(i-1),   0,  0)
