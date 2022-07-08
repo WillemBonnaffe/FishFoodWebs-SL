@@ -34,7 +34,7 @@ source("m1_maxTL_load_model_1.r")
 ## goal:
 
 ## load chain
-load(paste(pto,"/chain.RData",sep=""))
+load(paste(pto,"/chain_thinned.RData",sep=""))
 
 ##
 # pdf(paste(pto,"/results.pdf",sep=""))
