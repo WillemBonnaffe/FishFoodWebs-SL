@@ -103,12 +103,12 @@ latt    = std(data$lat)
 locat   = stringToInteger(data$CdBH)
 
 ## matrix of explanatory variables
-X_obs   =                 cbind(1, type,temp,temp^2,temp*type,dbo,dbo^2,dbo*type,temp*dbo*type,rich,alt,year)
-X_mis_l =                 cbind(1, type,temp,temp^2,temp*type,  1,    1,  1*type,  temp*1*type,rich,alt,year)
-X_mis_r = function(x)     cbind(1,    1,   1,     1,        1,  x,  x^2,       x,            x,   1,  1,   1)
-X_pred  = function(x,y,i) cbind(1,(i-1),   x,   x^2,  x*(i-1),  y,  y^2, y*(i-1),    x*y*(i-1),   0,  0,   0)
+X_obs   =                 cbind(1, type,temp,temp^2,temp*type,dbo,dbo^2,dbo*type,temp*dbo,temp*dbo*type,rich,alt,year)
+X_mis_l =                 cbind(1, type,temp,temp^2,temp*type,  1,    1,  1*type,  temp*1,  temp*1*type,rich,alt,year)
+X_mis_r = function(x)     cbind(1,    1,   1,     1,        1,  x,  x^2,       x,       x,            x,   1,  1,   1)
+X_pred  = function(x,y,i) cbind(1,(i-1),   x,   x^2,  x*(i-1),  y,  y^2, y*(i-1),     x*y,    x*y*(i-1),   0,  0,   0)
 n_beta  = ncol(X_obs)
-colnames(X_obs) = c("1","type","temp","temp^2","temp*type","dbo","dbo^2","dbo*type","temp*dbo*type","rich","alt","year")
+colnames(X_obs) = c("1","type","temp","temp^2","temp*type","dbo","dbo^2","dbo*type","temp*dbo","temp*dbo*type","rich","alt","year")
 
 ## missing values
 idx_mis = which(is.na(dbo))
