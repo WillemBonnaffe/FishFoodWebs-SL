@@ -291,7 +291,7 @@ colVect = c(rev(rainbow(2,start=0.25,end=0.6,alpha=alpha_1)),rev(rainbow(2,start
 plot(X_obs[,3],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(response," ~ temperature",sep=""))
 for(i in 1:2)
 {
-    Y = c(-3,3)
+    Y = c(-2,2)
     for(j in 1:length(Y))
     {
         k = k + 1
@@ -319,7 +319,7 @@ colVect = c(rev(rainbow(2,start=0.1,end=0.6,alpha=alpha_1)),rev(rainbow(2,start=
 plot(X_obs[,6],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(response," ~ DBO",sep=""))
 for(i in 1:2)
 {
-    Y = c(-3,3)
+    Y = c(-2,2)
     for(j in 1:length(Y))
     {
         k = k + 1
