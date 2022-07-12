@@ -70,7 +70,7 @@ load("data/dataset_lake_stream_v0_1.rda")
 data = dataset_lake_stream
 
 ## path to out
-pto = "out_conne_model_0_v0_4"
+pto = "out_conne"
 system(paste("mkdir ",pto,sep=""))
 
 ## response
@@ -198,50 +198,50 @@ dTarget    = function(omega) logPosWrap(unwrap(omega))
 #
 ###
 
-###########
-## TRAIN ##
-###########
-
-## optimisation
-chain = NULL
-for(i in 1:1)
-{
-	omega_0        = rnorm(n_param,0,.1)
-    res            = optim(par=omega_0,fn=function(x)-dTarget(x),method="BFGS",control=list(trace=TRUE,maxit=100)) 
-    chain          = rbind(chain,c(res$value,unwrap(res$par)))
-}
-
-## MaP
-omega_map = wrap(chain[which.min(chain[,1]),-1])
-#
-# load(paste(pto,"/chain_pilot.RData",sep=""))
-# omega_map = wrap(chainList.argmaxPost(chainList))
-
-## pilot chain
-nIt = 5000000
-chainList = list()
-for(i in 1:1)
-{
-	omega_0        = omega_map # rnorm(n_param,0,.1)
-	chain          = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = nIt))$chainList
-    # chain          = AMC(dTarget   = dTarget,
-    #                  Theta_0   = omega_0,
-    #                  scale_p_0 = 4*2.38/sqrt(length(omega_0)),
-    #                  Sigma_p_0 = diag(1,length(omega_0)),
-    #                  itVect    =  c(10000,100000),
-    #                  adaptShape= T,
-    #                  msg       = T)[-1,]
-	chain[,-1]     = t(apply(chain[,-1],1,unwrap))
-	chainList[[i]] = chain
-}
-
-## save chain
-chainList_thinned = chainList.thin(chainList.burn(chainList,1:round(0.75*nIt)))
-save(file=paste(pto,"/chain_thinned.RData",sep=""),chainList_thinned)
-save(file=paste(pto,"/chain.RData",sep=""),chainList)
- 
-#
-###
+# ###########
+# ## TRAIN ##
+# ###########
+# 
+# ## optimisation
+# chain = NULL
+# for(i in 1:1)
+# {
+# 	omega_0        = rnorm(n_param,0,.1)
+#     res            = optim(par=omega_0,fn=function(x)-dTarget(x),method="BFGS",control=list(trace=TRUE,maxit=100)) 
+#     chain          = rbind(chain,c(res$value,unwrap(res$par)))
+# }
+# 
+# ## MaP
+# omega_map = wrap(chain[which.min(chain[,1]),-1])
+# #
+# # load(paste(pto,"/chain_pilot.RData",sep=""))
+# # omega_map = wrap(chainList.argmaxPost(chainList))
+# 
+# ## pilot chain
+# nIt = 5000000
+# chainList = list()
+# for(i in 1:1)
+# {
+# 	omega_0        = omega_map # rnorm(n_param,0,.1)
+# 	chain          = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = nIt))$chainList
+#     # chain          = AMC(dTarget   = dTarget,
+#     #                  Theta_0   = omega_0,
+#     #                  scale_p_0 = 4*2.38/sqrt(length(omega_0)),
+#     #                  Sigma_p_0 = diag(1,length(omega_0)),
+#     #                  itVect    =  c(10000,100000),
+#     #                  adaptShape= T,
+#     #                  msg       = T)[-1,]
+# 	chain[,-1]     = t(apply(chain[,-1],1,unwrap))
+# 	chainList[[i]] = chain
+# }
+# 
+# ## save chain
+# chainList_thinned = chainList.thin(chainList.burn(chainList,1:round(0.75*nIt)))
+# save(file=paste(pto,"/chain_thinned.RData",sep=""),chainList_thinned)
+# save(file=paste(pto,"/chain.RData",sep=""),chainList)
+#  
+# #
+# ###
 
 #############
 ## FIGURES ##
@@ -252,45 +252,98 @@ save(file=paste(pto,"/chain.RData",sep=""),chainList)
 ## load chain
 load(paste(pto,"/chain_thinned.RData",sep=""))
 
-##
-colVect = adjustcolor(c("red","blue"),alpha=0.9)
-
-##
-# pdf(paste(pto,"/results.pdf",sep=""))
-
 ## PLOT PREDICTIONS TEMPERATURE ##
 png(paste(pto,"/fig_1.png",sep=""))
 #
+k = 0
+alpha_1 = 0.75
+alpha_2 = 0.5
+colVect = c(rev(rainbow(2,start=0.25,end=0.6,alpha=alpha_1)),rev(rainbow(2,start=0.4,end=0.7,alpha=alpha_1))) # adjustcolor(c("red","blue"),alpha=0.9)
 plot(X_obs[,3],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(response," ~ temperature",sep=""))
 for(i in 1:2)
 {
-    ## predictions
-    x        = seq(min(temp),max(temp),0.1)
-    pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,0,i),x_[-1][idx_omega_beta]))
-    polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=0.5))
-    lines(x,pred$f_mean,col=colVect[i])
+    Y = c(-3,3)
+    for(j in 1:length(Y))
+    {
+        k = k + 1
+        ## predictions
+        y        = Y[j]
+        x        = seq(min(temp),max(temp),0.1)
+        pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*c(1,1,1,1,1,1,1,1,1,0,1,1,1)))
+        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[k],alpha_2))# col=grey(0.75,alpha=alpha))
+        lines(x,pred$f_mean,col=colVect[k],lwd=2)
+    }
 }
 #
-legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+legend("bottomleft",legend=c("Stream - low  DBO","Stream - high DBO","Lake     - low  DBO","Lake     - high DBO"),lty=1,col=colVect,horiz=F,bg=adjustcolor("white",alpha=0.5),box.col="black",border=NA,lwd=2)
 #
 dev.off()
 
 ## PLOT PREDICTIONS DBO ##
 png(paste(pto,"/fig_2.png",sep=""))
 #
+k = 0
+alpha_1 = 0.75
+alpha_2 = 0.5
+# colVect = rev(rainbow(4,start=0.4,end=0.8,alpha=alpha_1)) # adjustcolor(c("red","blue"),alpha=0.9)
+colVect = c(rev(rainbow(2,start=0.1,end=0.6,alpha=alpha_1)),rev(rainbow(2,start=0.2,end=0.7,alpha=alpha_1))) # adjustcolor(c("red","blue"),alpha=0.9)
 plot(X_obs[,6],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(response," ~ DBO",sep=""))
 for(i in 1:2)
 {
-    ## predictions
-    x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
-    pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(0,x,i),x_[-1][idx_omega_beta]))
-    polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=0.5))
-    lines(x,pred$f_mean,col=colVect[i])
+    Y = c(-3,3)
+    for(j in 1:length(Y))
+    {
+        k = k + 1
+        ## predictions
+        y        = Y[j]
+        x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
+        pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(y,x,i),x_[-1][idx_omega_beta]*c(1,1,1,1,1,1,1,1,1,0,1,1,1)))
+        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[k],alpha_2))# col=grey(0.75,alpha=alpha))
+        lines(x,pred$f_mean,col=colVect[k],lwd=2)
+    }
 }
 #
-legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+legend("bottomleft",legend=c("Stream - low  Temp.","Stream - high Temp.","Lake     - low  Temp.","Lake     - high Temp."),lty=1,col=colVect,horiz=F,bg=adjustcolor("white",alpha=0.5),border=NA,lwd=2)
 #
 dev.off()
+
+
+# ##
+# colVect = adjustcolor(c("red","blue"),alpha=0.9)
+# 
+# ## PLOT PREDICTIONS TEMPERATURE ##
+# png(paste(pto,"/fig_1.png",sep=""))
+# #
+# plot(X_obs[,3],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(response," ~ temperature",sep=""))
+# for(i in 1:2)
+# {
+#     ## predictions
+#     x        = seq(min(temp),max(temp),0.1)
+#     pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,0,i),x_[-1][idx_omega_beta]))
+#     polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=0.5))
+#     lines(x,pred$f_mean,col=colVect[i])
+# }
+# #
+# legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+# #
+# dev.off()
+# 
+# ## PLOT PREDICTIONS DBO ##
+# png(paste(pto,"/fig_2.png",sep=""))
+# #
+# plot(X_obs[,6],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(response," ~ DBO",sep=""))
+# for(i in 1:2)
+# {
+#     ## predictions
+#     x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
+#     pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(0,x,i),x_[-1][idx_omega_beta]))
+#     polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=0.5))
+#     lines(x,pred$f_mean,col=colVect[i])
+# }
+# #
+# legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+# #
+# dev.off()
 
 ## VISUALISE MISSING VS OBSERVED DBO ##
 png(paste(pto,"/fig_3.png",sep=""))

@@ -104,12 +104,12 @@ We find a linear effect of dbo, but not quadratic.
 We find no evidence either for an effect of year on connectance.
 For maximum trophic level, only the quadratic effect of temperature is not significant. 
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_1.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_2.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_7.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_7.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_1.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_2.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_7.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_7.png)
 
 Parameters mean estimates and confidence interval can be found here:
 https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_conne_model_0/summary.csv
@@ -119,20 +119,20 @@ https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5/out_maxTL_
 
 The missing DBO distributions are slightly under-dispersed.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_3.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_3.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_3.png)
 
 ## Residuals
 
 The under-dispersion of missing DBO residuals has been cured.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_5.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_4.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_5.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_4.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_5.png)
 
 There is slight evidence for spatial autocorrelations in the residuals.
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/fig_18.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL_model_0_v0_4/fig_18.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_conne/fig_18.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_5_1/out_maxTL/fig_18.png)
 
