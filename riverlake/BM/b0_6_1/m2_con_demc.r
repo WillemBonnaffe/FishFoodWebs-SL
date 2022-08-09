@@ -68,7 +68,7 @@ omega = wrap(chainList.argmaxPost(chainList_thinned))
 omega_0    = omega
 #
 ## chain
-nIt        = 100000
+nIt        = 3000000
 chain      = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = nIt))$chainList
 chain[,-1] = t(apply(chain[,-1],1,unwrap))
 chainList  = list(chain)

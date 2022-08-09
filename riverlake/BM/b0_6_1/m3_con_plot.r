@@ -71,53 +71,124 @@ for(i in 1:2)
 }
 
 ## PLOT PREDICTIONS TEMPERATURE ##
-png(paste(pto,"/fig_1.png",sep=""))
+pdf(paste(pto,"/fig_1.pdf",sep=""))
 #
-alpha = 0.7
-plot(X_obs[,3],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(response," ~ temperature",sep=""))
+par(mfrow=c(2,2))
+#
+mainVect = c("a. Temp. ~ Connect. in streams","b. Temp ~ Connect. in lakes")
+colVect  = adjustcolor(c("blue","red","blue","red"),alpha=0.9)
+alpha    = 0.5
+k        = 1
+# plot(X_obs[,3],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(response," ~ temperature",sep=""),bty="n")
+##
+X = rbind(X_obs,X_mis_l)
+Y = c(Y_obs,Y_mis)
 for(i in 1:2)
 {
-    Y = seq(-3,3,0.5)
-    for(j in 1:length(Y))
+    plot(X[X[,2]==i-1,3],Y[X[,2]==i-1],pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(mainVect[i],sep=""),bty="n",xlim=c(min(X[,3]),max(X[,3])),ylim=c(min(Y),max(Y)))
+
+    ##
+    Y_ = c(-2,2)
+    for(j in 1:length(Y_))
     {
         ## predictions
-        y        = Y[j]
+        y        = Y_[j]
         x        = seq(min(temp),max(temp),0.1)
         pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]))
-        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
-        lines(x,pred$f_mean,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
-        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
-        lines(x,pred$f_mean,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
+        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[k],alpha=alpha))
+        lines(x,pred$f_mean,col=colVect[k],lwd=2)
+        k = k + 1
     }
+    #
+    legend("bottomright",legend=c("Low DBO","High DBO"),lty=1,col=colVect,bty="n")
 }
 #
-legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+#
+# dev.off()
+
+## PLOT PREDICTIONS TEMPERATURE ##
+# pdf(paste(pto,"/fig_2.pdf",sep=""))
+#
+mainVect = c("c. DBO ~ Connect. in streams","d. DBO ~ Connect. in lakes")
+alpha = 0.5
+k = 1
+# plot(X_obs[,6],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(response," ~ DBO",sep=""))
+##
+X        = rbind(X_obs,X_mis_l*X_mis_r(rnorm(n_mis,0,1)))
+Y        = c(Y_obs,Y_mis)
+for(i in 1:2)
+{
+    plot(X[X[,2]==i-1,6],Y[X[,2]==i-1],pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(mainVect[i],sep=""),bty="n",xlim=c(min(X[,6]),max(X[,6])),ylim=c(min(Y),max(Y)))
+
+    ##
+    Y_ = c(-2,2)
+    for(j in 1:length(Y_))
+    {
+        ## predictions
+        y        = Y_[j]
+        x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
+        pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(y,x,i),x_[-1][idx_omega_beta]))
+        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[k],alpha=alpha))
+        lines(x,pred$f_mean,col=colVect[k],lwd=2)
+        k = k + 1
+    }
+    #
+    legend("bottomright",legend=c("Low temp.","High temp."),lty=1,col=colVect,bty="n")
+}
+#
+par(mfrow=c(1,1))
 #
 dev.off()
 
-## PLOT PREDICTIONS TEMPERATURE ##
-png(paste(pto,"/fig_2.png",sep=""))
-#
-plot(X_obs[,6],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(response," ~ DBO",sep=""))
-for(i in 1:2)
-{
-    Y = seq(-3,3,0.5)
-    for(j in 1:length(Y))
-    {
-        ## predictions
-        y        = Y[j]
-        x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
-        pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(y,x,i),x_[-1][idx_omega_beta]))
-        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
-        lines(x,pred$f_mean,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
-        polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
-        lines(x,pred$f_mean,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
-    }
-}
-#
-legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
-#
-dev.off()
+
+# ## PLOT PREDICTIONS TEMPERATURE ##
+# png(paste(pto,"/fig_1.png",sep=""))
+# #
+# alpha = 0.7
+# plot(X_obs[,3],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="Temperature (SU)",ylab=response,main=paste(response," ~ temperature",sep=""))
+# for(i in 1:2)
+# {
+#     Y = seq(-2,2,0.5)
+#     for(j in 1:length(Y))
+#     {
+#         ## predictions
+#         y        = Y[j]
+#         x        = seq(min(temp),max(temp),0.1)
+#         pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]))
+#         polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
+#         lines(x,pred$f_mean,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
+#         polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
+#         lines(x,pred$f_mean,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
+#     }
+# }
+# #
+# legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+# #
+# dev.off()
+# 
+# ## PLOT PREDICTIONS TEMPERATURE ##
+# png(paste(pto,"/fig_2.png",sep=""))
+# #
+# plot(X_obs[,6],Y_obs,pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO (SU)",ylab=response,main=paste(response," ~ DBO",sep=""))
+# for(i in 1:2)
+# {
+#     Y = seq(-2,2,0.5)
+#     for(j in 1:length(Y))
+#     {
+#         ## predictions
+#         y        = Y[j]
+#         x        = seq(min(dbo,na.rm=T),max(dbo,na.rm=T),0.1)
+#         pred     = chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(y,x,i),x_[-1][idx_omega_beta]))
+#         polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
+#         lines(x,pred$f_mean,col=grey(0.5,alpha=alpha*(1-j/length(Y))))
+#         polygon(x=c(x,rev(x)),y=c(pred$f_q0.05,rev(pred$f_q0.95)),border=NA,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
+#         lines(x,pred$f_mean,col=adjustcolor(colVect[i],alpha=alpha*(j/length(Y))))
+#     }
+# }
+# #
+# legend("topright",legend=c("Stream","Lake"),lty=1,col=colVect,bty="n")
+# #
+# dev.off()
 
 ## VISUALISE MISSING VS OBSERVED DBO ##
 png(paste(pto,"/fig_3.png",sep=""))
