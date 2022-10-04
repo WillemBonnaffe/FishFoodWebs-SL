@@ -33,6 +33,10 @@ sourceCpp("cpp/DEMCpp_v0.1.cpp")
 # source("m1_con_load.r")
 source("m1_mTL_load.r")
 
+## chain name
+chainName = "chain_thinned_2"
+message(paste(pto,"/",chainName,".RData",sep=""))
+
 #
 ###
 
@@ -40,32 +44,9 @@ source("m1_mTL_load.r")
 ## TRAIN ##
 ###########
 
-# ## optimisation
-# omega_0 = rPrior() 
-# #
-# ## initiate omega with previous results
-# load("/Users/willembonnaffe/Documents/GitHub/RESOTRO/riverlake/BM/b0_5_1/out_conne_model_0_v0_4/chain_thinned.RData")
-# omega_map = chainList.argmaxPost(chainList_thinned)
-# omega_0[idx_omega_sd_lik] = omega_map[idx_omega_sd_lik]
-# omega_0[idx_omega_sd_mis] = omega_map[idx_omega_sd_mis]
-# omega_0[idx_omega_mu_mis] = omega_map[idx_omega_mu_mis]
-# omega_0[idx_omega_beta]   = omega_map[idx_omega_beta]
-# #
-# omega = omega_0 = wrap(omega_0)
-# #
-# ## chain
-# nIt     = 100
-# for(i in 1:10)
-# {
-#     omega = DEMCOpp(list("dTarget" = dTarget, "Theta_0" = omega, "epsilon" = 0.01, "lambda" = 100, "nIt" = nIt))$chainList[nIt,-1]
-# }
+##
+## OPTIMISATION
 
-## DEMC sampling
-#
-# ## initiate omega from pilot chain 
-# load(paste(pto,"/chain_thinned.RData",sep=""))
-# omega_0 = omega = wrap(chainList.argmaxPost(chainList_thinned))
-#
 ## initiate from prior
 k = 0
 check = F
@@ -74,14 +55,48 @@ while(check == F)
 	message(paste("attempt ",k))
 	omega_0    = rPrior() # omega
 	dTarget_   = dTarget(omega_0)
-	if (dTarget_ > -Inf)
+	if (dTarget_ > -7000)
 	{
 		check = T
 		message("chain starting")
 	}
 	k = k + 1
 }
-#
+
+## chain
+nIt    = 1000
+omega  = omega_0
+for(i in 1:30)
+{
+    omega = DEMCOpp(list("dTarget" = dTarget, "Theta_0" = omega, "epsilon" = 0.001, "lambda" = 100, "nIt" = nIt))$chainList[nIt,-1]
+}
+
+##
+## DEMC SAMPLING
+
+## initiate from optimisation
+omega_0 = omega
+
+# ## initiate omega from pilot chain 
+# load(paste(pto,"/chain_thinned.RData",sep=""))
+# omega_0 = omega = wrap(chainList.argmaxPost(chainList_thinned))
+
+# ## initiate from prior
+# k = 0
+# check = F
+# while(check == F)
+# {
+# 	message(paste("attempt ",k))
+# 	omega_0    = rPrior() # omega
+# 	dTarget_   = dTarget(omega_0)
+# 	if (dTarget_ > -Inf)
+# 	{
+# 		check = T
+# 		message("chain starting")
+# 	}
+# 	k = k + 1
+# }
+
 ## chain
 nIt        = 5000000
 chain      = DEMCpp(list("dTarget" = dTarget, "Theta_0" = omega_0, "epsilon" = 0.001, "nIt" = nIt))$chainList
@@ -91,7 +106,7 @@ chainList  = list(chain)
 ## burn and thin
 # save(file=paste(pto,"/chain.RData",sep=""),chainList)
 chainList_thinned = chainList.thin(chainList.burn(chainList,1:round(0.75*nIt)))
-save(file=paste(pto,"/chain_thinned_3.RData",sep=""),chainList_thinned)
+save(file=paste(pto,"/",chainName,".RData",sep=""),chainList_thinned)
  
 #
 ###
