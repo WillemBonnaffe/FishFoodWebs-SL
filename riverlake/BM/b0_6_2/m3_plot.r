@@ -26,7 +26,7 @@
 ##############
 
 ## load module
-source("m1_con_load.r")
+source("m1_mTL_load.r")
 
 #
 ###
@@ -38,7 +38,7 @@ source("m1_con_load.r")
 ## goal:
 
 ## load chain
-load(paste(pto,"/chain_thinned.RData",sep=""))
+load(paste(pto,"/chain_thinned_2.RData",sep=""))
 
 ## VISUALISE PARAMETER POSTERIOR DISTRIBUTIONS ##
 chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,idx_omega_beta])
