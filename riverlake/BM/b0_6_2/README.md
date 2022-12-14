@@ -12,9 +12,12 @@ Author: Willem Bonnaffé (w.bonnaffe@gmail.com)
              - introduced connectance as response variable
              - Cleaned repo structure 
 * 07-07-2022 - Performed model selection 
+*
+* 14-12-2022 - created b0_6_2
+             - re-run DEMC sampling without effect of altitude
+             - updated figures
 
 ## Next
-* xx-xx-xxxx - Test robustness of results to spatial autocorrelation by modelling spatial covariation 
 
 ## Abstract
 
@@ -101,35 +104,35 @@ hydrographic bassin.
 
 ### Model predictions 
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/fig_predictions.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_predictions.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/fig_predictions.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_predictions.png)
 
 ### Interaction DBO temperature in streams
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_interactions.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_interactions.png)
 
 ### Model estimates
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/fig_bayesPlot_beta.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_bayesPlot_beta.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/fig_bayesPlot_beta.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_bayesPlot_beta.png)
 
 Parameters mean estimates and confidence interval can be found here:
-https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/summary.csv
-https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/summary.csv
+https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/summary.csv
+https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/summary.csv
 
 ## Missing DBO distributions
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/fig_hist_missing_dbo.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_hist_missing_dbo.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/fig_hist_missing_dbo.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_hist_missing_dbo.png)
 
 ## Residuals
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/fig_hist_residuals.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/fig_qqplot_residuals.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/fig_hist_residuals.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/fig_qqplot_residuals.png)
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_hist_residuals.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_qqplot_residuals.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_hist_residuals.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_qqplot_residuals.png)
 
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_con/fig_spatial_autocorrelations.png)
-![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_1/out_mTL/fig_spatial_autocorrelations.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_con/fig_spatial_autocorrelations.png)
+![This is an image](https://github.com/WillemBonnaffe/RESOTRO/blob/main/riverlake/BM/b0_6_2/out_mTL/fig_spatial_autocorrelations.png)
 
