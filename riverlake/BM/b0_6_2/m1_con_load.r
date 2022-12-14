@@ -87,8 +87,8 @@ temp_mean = mean(data$temp,na.rm=T)
 temp_sd   = sd(data$temp,na.rm=T)
 dbo_mean  = mean(data$dbo,na.rm=T)
 dbo_sd    = sd(data$dbo,na.rm=T)
-Y_mean    = mean(data$max_troph_lvl,na.rm=T)
-Y_sd      = sd(data$max_troph_lvl,na.rm=T)
+Y_mean    = mean(data$connectance,na.rm=T)
+Y_sd      = sd(data$connectance,na.rm=T)
 
 ## explanatory variables
 type    = (data$type == "lake")*1
