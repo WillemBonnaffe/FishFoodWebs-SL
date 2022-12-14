@@ -26,7 +26,8 @@
 ##############
 
 ## load module
-source("m1_mTL_load.r")
+source("m1_con_load.r")
+# source("m1_mTL_load.r")
 
 #
 ###
@@ -37,18 +38,26 @@ source("m1_mTL_load.r")
 
 ## goal:
 
-## load chain
-load(paste(pto,"/chain_thinned_2.RData",sep=""))
+## load chains
+chainList_ = list()
+load(paste(pto,"/chain_thinned_",1,".RData",sep="")); chainList_[[1]] = chainList_thinned[[1]]
+load(paste(pto,"/chain_thinned_",2,".RData",sep="")); chainList_[[2]] = chainList_thinned[[1]]
+chainList_thinned = chainList_
 
 ## VISUALISE PARAMETER POSTERIOR DISTRIBUTIONS ##
-chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,idx_omega_beta])
-colnames(chain_) = c("P",colnames(X_obs))
-png(paste(pto,"/fig_postPlot_beta.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
-png(paste(pto,"/fig_bayesPlot_beta.png",sep="")); chainList.bayesPlot(list(chain_),main=paste(response," ~ estimates ",sep="")); dev.off()
-pdf(paste(pto,"/fig_tracePlot_beta.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
+chainList_  = list()
+for(i in 1:length(chainList_thinned))
+{
+    chain_           = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,idx_omega_beta])
+    colnames(chain_) = c("P",colnames(X_obs))
+    chainList_[[i]]  = chain_    
+}
+png(paste(pto,"/fig_postPlot_beta.png",sep="")); chainList.postPlot(chainList_,1000); dev.off()
+png(paste(pto,"/fig_bayesPlot_beta.png",sep="")); chainList.bayesPlot(chainList_,main=paste(response," ~ estimates ",sep="")); dev.off()
+pdf(paste(pto,"/fig_tracePlot_beta.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
 
 ## SUMMARY TABLE ##
-summaryTable_    = chainList.summaryTab(list(chain_))[[1]]
+summaryTable_    = chainList.summaryTab(chainList_)[[1]]
 summaryTable     = cbind(rownames(summaryTable_),summaryTable_)
 colnames(summaryTable) = c("name",colnames(summaryTable_))
 write.table(summaryTable,file=paste(pto,"/summary.csv",sep=""),sep=",",row.names=F,quote=F)
@@ -98,7 +107,7 @@ mainVect = c("c. Effect of DBO in streams","d. Effect of DBO in lakes")
 alpha = 0.5
 k = 1
 #
-xmis_ = chainList_thinned[[1]][,-1][1,idx_omega_xmis]
+xmis_ = chainList.unlist(chainList_thinned)[,-1][1,idx_omega_xmis]
 # xmis_ = rnorm(n_mis,0,1)
 X = rbind(X_obs,X_mis_l*X_mis_r(xmis_))
 Y = c(Y_obs,Y_mis)
@@ -135,40 +144,40 @@ par(mfrow=c(1,1))
 #
 dev.off()
 
-# ## VISUALISE INTERACTION ##
-# png(paste(pto,"/fig_interactions.png",sep=""))
-# #
-# par(mfrow=c(2,2))
-# #
-# main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
-# labs = c("Temperature","DBO")
-# for(i in 1:2)
-# {
-#     ## compute effect matrix
-#     x  = y = seq(-3,3,0.1)
-#     n  = length(x)
-#     IM = matrix(rep(0,n),nrow=n,ncol=n)
-#     f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
-#     for(j in 1:n) IM[,j] = f(x,y[j],i)
-#     #
-#     ## visualise matrix 
-#     maxAbsMinMax = max(abs(IM))
-#     levels       = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-#     colorLevels  = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-#     image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2],main=main[i])
-#     contour(IM,add=T)
-#     #
-#     ## axis
-#     x  = seq(-3,3,1)
-#     x_ = x*temp_sd+temp_mean
-#     y  = seq(-3,3,1)
-#     y_ = y*dbo_sd+dbo_mean 
-#     axis(1,label=round(x_,1),at=(x-min(x))/(max(x)-min(x)))
-#     axis(2,label=round(y_,1),at=(y-min(y))/(max(y)-min(y)))
-# }
-# par(mfrow=c(1,1))
-# #
-# dev.off()
+## VISUALISE INTERACTION ##
+png(paste(pto,"/fig_interactions.png",sep=""))
+#
+par(mfrow=c(2,2))
+#
+main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
+labs = c("Temperature","DBO")
+for(i in 1:2)
+{
+    ## compute effect matrix
+    x  = y = seq(-3,3,0.1)
+    n  = length(x)
+    IM = matrix(rep(0,n),nrow=n,ncol=n)
+    f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
+    for(j in 1:n) IM[,j] = f(x,y[j],i)
+    #
+    ## visualise matrix
+    maxAbsMinMax = max(abs(IM))
+    levels       = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+    colorLevels  = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+    image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2],main=main[i])
+    contour(IM,add=T)
+    #
+    ## axis
+    x  = seq(-3,3,1)
+    x_ = x*temp_sd+temp_mean
+    y  = seq(-3,3,1)
+    y_ = y*dbo_sd+dbo_mean
+    axis(1,label=round(x_,1),at=(x-min(x))/(max(x)-min(x)))
+    axis(2,label=round(y_,1),at=(y-min(y))/(max(y)-min(y)))
+}
+par(mfrow=c(1,1))
+#
+dev.off()
 
 ## VISUALISE MISSING VS OBSERVED DBO ##
 png(paste(pto,"/fig_hist_missing_dbo.png",sep=""))
@@ -188,9 +197,9 @@ legend("topright",legend=c("Observed","Missing"),col=adjustcolor(c("blue","red")
 dev.off()
 
 ## VERIFY MODEL ASSUMPTIONS ##
-x_mis_      = apply(chainList_thinned[[1]][,-1][,idx_omega_xmis],2,mean)
+x_mis_      = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_xmis],2,mean)
 X_mis_      = X_mis_l * X_mis_r(x_mis_)
-chainList_  = list(chainList_thinned[[1]][,-1][,idx_omega_beta])
+chainList_  = list(chainList.unlist(chainList_thinned)[,-1][,idx_omega_beta])
 Yhat_obs    = chainList.apply(chainList_,function(x)Yhat(X_obs,x))$f_mean
 Yhat_mis    = chainList.apply(chainList_,function(x)Yhat(X_mis_,x))$f_mean
 res_obs     = Y_obs - Yhat_obs
@@ -215,7 +224,7 @@ dev.off()
 ## QQ plot
 png(paste(pto,"/fig_qqplot_residuals.png",sep=""))
 #
-sdVect = apply(chainList_thinned[[1]][,-1][,idx_omega_sd_lik],2,mean)
+sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
 par(mfrow=c(3,3))
 for(i in 1:n_sd_lik)
 {
@@ -234,32 +243,52 @@ par(mfrow=c(1,1))
 dev.off()
 
 ## VISUALISE VARIANCES POSTERIOR DISTRIBUTIONS ##
-chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,idx_omega_sd_lik])
-colnames(chain_) = c("P",paste("sd_",1:n_sd_lik,sep=""))
-png(paste(pto,"/fig_postPlot_sd_lik.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
-png(paste(pto,"/fig_bayesPlot_sd_lik.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
-pdf(paste(pto,"/fig_tracePlot_sd_lik.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
+chainList_  = list()
+for(i in 1:length(chainList_thinned))
+{
+    chain_           = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,idx_omega_sd_lik])
+    colnames(chain_) = c("P",paste("sd_",1:n_sd_lik,sep=""))
+    chainList_[[i]]  = chain_    
+}
+png(paste(pto,"/fig_postPlot_sd_lik.png",sep="")); chainList.postPlot(chainList_,1000); dev.off()
+png(paste(pto,"/fig_bayesPlot_sd_lik.png",sep="")); chainList.bayesPlot(chainList_); dev.off()
+pdf(paste(pto,"/fig_tracePlot_sd_lik.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
 
 ## VISUALISE MISSING MEAN VARIANCE POSTERIOR DISTRIBUTIONS ##
-chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,c(idx_omega_mu_mis,idx_omega_sd_mis)])
-colnames(chain_) = c("P","mu_mis","sd_mis")
-png(paste(pto,"/fig_postPlot_sd_mis.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
-png(paste(pto,"/fig_bayesPlot_sd_mis.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
-pdf(paste(pto,"/fig_tracePlot_sd_mis.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
+chainList_  = list()
+for(i in 1:length(chainList_thinned))
+{
+    chain_           = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,c(idx_omega_mu_mis,idx_omega_sd_mis)])
+    colnames(chain_) = c("P","mu_mis","sd_mis")
+    chainList_[[i]]  = chain_    
+}
+png(paste(pto,"/fig_postPlot_sd_mis.png",sep="")); chainList.postPlot(chainList_,1000); dev.off()
+png(paste(pto,"/fig_bayesPlot_sd_mis.png",sep="")); chainList.bayesPlot(chainList_); dev.off()
+pdf(paste(pto,"/fig_tracePlot_sd_mis.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
 
 ## VISUALISE MISSING OBSERVATIONS POSTERIOR DISTRIBUTIONS ##
-chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,idx_omega_xmis][,1:10])
-colnames(chain_) = c("P",paste("mis_",1:10,sep=""))
-png(paste(pto,"/fig_postPlot_missing_dbo.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
-png(paste(pto,"/fig_bayesPlot_missing_dbo.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
-pdf(paste(pto,"/fig_tracePlot_missing_dbo.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
+chainList_  = list()
+for(i in 1:length(chainList_thinned))
+{
+    chain_           = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,idx_omega_xmis][,1:10])
+    colnames(chain_) = c("P",paste("mis_",1:10,sep=""))
+    chainList_[[i]]  = chain_    
+}
+png(paste(pto,"/fig_postPlot_missing_dbo.png",sep="")); chainList.postPlot(chainList_,1000); dev.off()
+png(paste(pto,"/fig_bayesPlot_missing_dbo.png",sep="")); chainList.bayesPlot(chainList_); dev.off()
+pdf(paste(pto,"/fig_tracePlot_missing_dbo.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
 
 ## VISUALISE CORRELATIONS POSTERIOR DISTRIBUTIONS ##
-chain_           = cbind(chainList_thinned[[1]][,1],chainList_thinned[[1]][,-1][,idx_omega_rho])
-colnames(chain_) = c("P",paste("rho_",1:2,sep=""))
-png(paste(pto,"/fig_postPlot_rho.png",sep="")); chainList.postPlot(list(chain_),1000); dev.off()
-png(paste(pto,"/fig_bayesPlot_rho.png",sep="")); chainList.bayesPlot(list(chain_)); dev.off()
-pdf(paste(pto,"/fig_tracePlot_rho.pdf",sep="")); chainList.tracePlot(list(chain_)); dev.off()
+chainList_  = list()
+for(i in 1:length(chainList_thinned))
+{
+    chain_           = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,idx_omega_rho])
+    colnames(chain_) = c("P",paste("rho_",1:2,sep=""))
+    chainList_[[i]]  = chain_    
+}
+png(paste(pto,"/fig_postPlot_rho.png",sep="")); chainList.postPlot(chainList_,1000); dev.off()
+png(paste(pto,"/fig_bayesPlot_rho.png",sep="")); chainList.bayesPlot(chainList_); dev.off()
+pdf(paste(pto,"/fig_tracePlot_rho.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
 
 ## COMPUTE SPATIAL CORRELATIONS IN RESIDUALS ##
 long_obs = long[-idx_mis]
