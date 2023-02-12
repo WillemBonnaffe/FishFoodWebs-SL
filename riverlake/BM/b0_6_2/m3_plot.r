@@ -91,19 +91,21 @@ for(i in 1:2)
         k = k + 1
     }
     #
-    legend("bottomright",legend=c("Low DBO","High DBO"),lty=1,col=colVect,bty="n")
+    legend("bottomright",legend=c("Low DOB","High DOB"),lty=1,col=colVect,bty="n")
     #
     ## axis
     x  = seq(-3,3,1)
     x_ = x*temp_sd+temp_mean
+    print(paste("low temp: ",-2*temp_sd + temp_mean))
+    print(paste("hi temp:  ",+2*temp_sd + temp_mean))
     y  = seq(-3,3,1)
     y_ = y*Y_sd+Y_mean 
-    axis(1,label=round(x_,1),at=x)
-    axis(2,label=round(y_,1),at=y)
+    axis(1,label=round(x_,2),at=x)
+    axis(2,label=round(y_,2),at=y)
 
 }
 #
-mainVect = c("c. Effect of DBO in streams","d. Effect of DBO in lakes")
+mainVect = c("c. Effect of DOB in streams","d. Effect of DOB in lakes")
 alpha = 0.5
 k = 1
 #
@@ -113,7 +115,7 @@ X = rbind(X_obs,X_mis_l*X_mis_r(xmis_))
 Y = c(Y_obs,Y_mis)
 for(i in 1:2)
 {
-    plot(X[X[,2]==i-1,6],Y[X[,2]==i-1],pch=16,col=adjustcolor("black",alpha=0.5),xlab="DBO",ylab=response,main=paste(mainVect[i],sep=""),bty="n",xlim=c(min(X[,6]),max(X[,6])),ylim=c(min(Y),max(Y)),xaxt="n",yaxt="n")
+    plot(X[X[,2]==i-1,6],Y[X[,2]==i-1],pch=16,col=adjustcolor("black",alpha=0.5),xlab="DOB",ylab=response,main=paste(mainVect[i],sep=""),bty="n",xlim=c(min(X[,6]),max(X[,6])),ylim=c(min(Y),max(Y)),xaxt="n",yaxt="n")
 
     ##
     Y_ = c(-2,2)
@@ -133,10 +135,13 @@ for(i in 1:2)
     ## axis
     x  = seq(-3,3,1)
     x_ = x*dbo_sd+dbo_mean
+    print(paste("min bod: ",min(x_)))
+    print(paste("low bod: ",-2*dbo_sd + dbo_mean))
+    print(paste("hi bod: " ,+2*dbo_sd + dbo_mean))
     y  = seq(-3,3,1)
     y_ = y*Y_sd+Y_mean 
-    axis(1,label=round(x_,1),at=x)
-    axis(2,label=round(y_,1),at=y)
+    axis(1,label=round(x_,2),at=x)
+    axis(2,label=round(y_,2),at=y)
 
 }
 #
@@ -144,47 +149,47 @@ par(mfrow=c(1,1))
 #
 dev.off()
 
-## VISUALISE INTERACTION ##
-png(paste(pto,"/fig_interactions.png",sep=""))
-#
-par(mfrow=c(2,2))
-#
-main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
-labs = c("Temperature","DBO")
-for(i in 1:2)
-{
-    ## compute effect matrix
-    x  = y = seq(-3,3,0.1)
-    n  = length(x)
-    IM = matrix(rep(0,n),nrow=n,ncol=n)
-    f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
-    for(j in 1:n) IM[,j] = f(x,y[j],i)
-    #
-    ## visualise matrix
-    maxAbsMinMax = max(abs(IM))
-    levels       = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-    colorLevels  = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-    image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2],main=main[i])
-    contour(IM,add=T)
-    #
-    ## axis
-    x  = seq(-3,3,1)
-    x_ = x*temp_sd+temp_mean
-    y  = seq(-3,3,1)
-    y_ = y*dbo_sd+dbo_mean
-    axis(1,label=round(x_,1),at=(x-min(x))/(max(x)-min(x)))
-    axis(2,label=round(y_,1),at=(y-min(y))/(max(y)-min(y)))
-}
-par(mfrow=c(1,1))
-#
-dev.off()
+# ## VISUALISE INTERACTION ##
+# png(paste(pto,"/fig_interactions.png",sep=""))
+# #
+# par(mfrow=c(2,2))
+# #
+# main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
+# labs = c("Temperature","DOB")
+# for(i in 1:2)
+# {
+#     ## compute effect matrix
+#     x  = y = seq(-3,3,0.1)
+#     n  = length(x)
+#     IM = matrix(rep(0,n),nrow=n,ncol=n)
+#     f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
+#     for(j in 1:n) IM[,j] = f(x,y[j],i)
+#     #
+#     ## visualise matrix
+#     maxAbsMinMax = max(abs(IM))
+#     levels       = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+#     colorLevels  = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+#     image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2],main=main[i])
+#     contour(IM,add=T)
+#     #
+#     ## axis
+#     x  = seq(-3,3,1)
+#     x_ = x*temp_sd+temp_mean
+#     y  = seq(-3,3,1)
+#     y_ = y*dbo_sd+dbo_mean
+#     axis(1,label=round(x_,2),at=(x-min(x))/(max(x)-min(x)))
+#     axis(2,label=round(y_,2),at=(y-min(y))/(max(y)-min(y)))
+# }
+# par(mfrow=c(1,1))
+# #
+# dev.off()
 
-## VISUALISE MISSING VS OBSERVED DBO ##
+## VISUALISE MISSING VS OBSERVED DOB ##
 png(paste(pto,"/fig_hist_missing_dbo.png",sep=""))
 #
 x = density(dbo,na.rm=T)$x
 y = density(dbo,na.rm=T)$y; y=y/max(y)
-plot(x,y,type="l",col="white",xlab="DBO (SU)",ylab="Density (SU)",main=paste(response," ~ DBO distribution",sep=""))
+plot(x,y,type="l",col="white",xlab="DOB (SU)",ylab="Density (SU)",main=paste(response," ~ DOB distribution",sep=""))
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
 #
 dbo_mis = chainList.argmaxPost(chainList_thinned)[idx_omega_xmis]
