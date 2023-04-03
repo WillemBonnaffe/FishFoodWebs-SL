@@ -1,0 +1,122 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nyt/global//global/global}
+  \entry{TerBraak2006}{article}{}
+    \name{author}{1}{}{%
+      {{hash=BCJFT}{%
+         family={Braak},
+         familyi={B\bibinitperiod},
+         given={Cajo J. F.\bibnamedelima Ter},
+         giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim
+  F\bibinitperiod\bibinitdelim T\bibinitperiod},
+      }}%
+    }
+    \keyw{block updating,carlo,evolutionary monte carlo,metropolis
+  algorithm,population markov chain monte,simulated annealing,simulated
+  tempering,theophylline kinetics}
+    \strng{namehash}{BCJFT1}
+    \strng{fullhash}{BCJFT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{2006}
+    \field{labeldatesource}{}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{abstract}{%
+    Differential Evolution (DE) is a simple genetic al- gorithm for numerical
+  optimization in real parameter spaces. In a statistical context one would not
+  just want the optimum but also its uncertainty. The uncertainty distribution
+  can be obtained by a Bayesian analysis (after specifying prior and
+  likelihood) using Markov Chain Monte Carlo (MCMC) sim- ulation. This paper
+  integrates the essential ideas of DE and MCMC, resulting in Differential
+  Evolution Markov Chain (DE-MC). DE-MC is a population MCMC algorithm, in
+  which multiple chains are run in parallel. DE-MC solves an important problem
+  inMCMC,namely that of choosing an appropriate scale and orientation for the
+  jumping distribu- tion. In DE-MC the jumps are simply a fixed multiple of the
+  differences of two random parameter vectors that are cur- rently in the
+  population. The selection process of DE-MC works via the usual Metropolis
+  ratio which defines the prob- ability with which a proposal is accepted. In
+  tests with known uncertainty distributions, the efficiency of DE-MC with re-
+  spect to random walk Metropolis with optimal multivariate Normal jumps ranged
+  from 68% for small population sizes to 100% for large population sizes and
+  even to 500% for the 97.5% point of a variable from a 50-dimensional Student
+  distribution. Two Bayesian examples illustrate the potential of DE-MC in
+  practice. DE-MC is shown to facilitate mul- tidimensional updates in a
+  multi-chain “Metropolis-within- Gibbs” sampling approach. The advantage
+  of DE-MC over conventionalMCMCare simplicity, speed of calculation and
+  convergence, even for nearly collinear parameters and mul- timodal
+  densities.%
+    }
+    \verb{doi}
+    \verb 10.1007/s11222-006-8769-1
+    \endverb
+    \field{issn}{0960-3174}
+    \field{issue}{3}
+    \field{pages}{239\bibrangedash 249}
+    \field{title}{A Markov Chain Monte Carlo version of the genetic algorithm
+  Differential Evolution: easy Bayesian computing for real parameter spaces}
+    \field{volume}{16}
+    \field{journaltitle}{Statistics and Computing}
+    \field{year}{2006}
+  \endentry
+
+  \entry{Gelman1995}{book}{}
+    \name{author}{4}{}{%
+      {{hash=GA}{%
+         family={Gelman},
+         familyi={G\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=CJB}{%
+         family={Carlin},
+         familyi={C\bibinitperiod},
+         given={John\bibnamedelima B},
+         giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+      {{hash=SHS}{%
+         family={Stern},
+         familyi={S\bibinitperiod},
+         given={Hal\bibnamedelima S},
+         giveni={H\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=RDB}{%
+         family={Rubin},
+         familyi={R\bibinitperiod},
+         given={Donald\bibnamedelima B},
+         giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{2}{%
+      {Chapman}%
+      {Hall/CRC}%
+    }
+    \strng{namehash}{GA+1}
+    \strng{fullhash}{GACJBSHSRDB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{labelyear}{1995}
+    \field{labeldatesource}{}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{title}{Bayesian data analysis}
+    \field{year}{1995}
+  \endentry
+\enddatalist
+\endinput
