@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.13)  3 APR 2023 12:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.5.13)  11 APR 2023 14:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -809,29 +809,29 @@ File: tikzlibrarytopaths.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 
 Package biblatex Warning: Conflicting options.
 (biblatex)                '<namepart>inits' conflicts with 'uniquename=full'.
-(biblatex)                Setting 'uniquename=init' on input line 46.
+(biblatex)                Setting 'uniquename=init' on input line 47.
 
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 4
-6.
+7.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
-LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -910,39 +910,39 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
 
 (./main.bbl)
-Package biblatex Info: Reference section=0 on input line 46.
-Package biblatex Info: Reference segment=0 on input line 46.
+Package biblatex Info: Reference section=0 on input line 47.
+Package biblatex Info: Reference segment=0 on input line 47.
 LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line
- 84.
+ 85.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line
- 84.
+ 85.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line
- 84.
+ 85.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line
- 84.
+ 85.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 84.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 85.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 84.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 85.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 84.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 85.
 
-Overfull \hbox (92.9606pt too wide) in paragraph at lines 86--107
+Overfull \hbox (92.9606pt too wide) in paragraph at lines 87--108
  [] 
  []
 
@@ -950,7 +950,7 @@ Overfull \hbox (92.9606pt too wide) in paragraph at lines 86--107
 File: b0_6_2/out_con/fig_postPlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_postPlot_beta.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_postPlot_beta.pdf , page1 used on i
-nput line 113.
+nput line 114.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 [1
 
@@ -963,41 +963,41 @@ Overfull \vbox (5.93971pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_postPlot_rho.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_postPlot_rho.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_postPlot_rho.pdf , page1 used on in
-put line 125.
+put line 126.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 <b0_6_2/out_con/fig_postPlot_sd_lik.pdf, id=27, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_con/fig_postPlot_sd_lik.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_postPlot_sd_lik.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_postPlot_sd_lik.pdf , page1 used on
- input line 139.
+ input line 140.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [3 <./b0_6_2/out_con/fig_postPlot_rho.pdf>]
 <b0_6_2/out_con/fig_postPlot_sd_mis.pdf, id=41, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_con/fig_postPlot_sd_mis.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_postPlot_sd_mis.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_postPlot_sd_mis.pdf , page1 used on
- input line 152.
+ input line 153.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [4 <./b0_6_2/out_con/fig_postPlot_sd_lik.pdf>]
 <b0_6_2/out_con/fig_hist_missing_bod.pdf, id=53, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_con/fig_hist_missing_bod.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_hist_missing_bod.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_hist_missing_bod.pdf , page1 used o
-n input line 166.
+n input line 167.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [5 <./b0_6_2/out_con/fig_postPlot_sd_mis.pdf>]
 <b0_6_2/out_con/fig_hist_residuals.pdf, id=65, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_con/fig_hist_residuals.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_hist_residuals.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_hist_residuals.pdf , page1 used on 
-input line 179.
+input line 180.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [6 <./b0_6_2/out_con/fig_hist_missing_bod.pdf>]
 <b0_6_2/out_con/fig_qqplot_residuals.pdf, id=78, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_con/fig_qqplot_residuals.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_qqplot_residuals.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_qqplot_residuals.pdf , page1 used o
-n input line 192.
+n input line 193.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 [7 <./b0_6_2/out_con/fig_hist_residuals.pdf>]
@@ -1005,7 +1005,7 @@ n input line 192.
 File: b0_6_2/out_con/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_beta.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_beta.pdf , page1 used on 
-input line 204.
+input line 205.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [8 <./b0_6_2/out_con/fig_qqplot_residuals.pdf>]
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1016,7 +1016,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_beta.pdf, page 2>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_beta.pdf , page2 used on 
-input line 218.
+input line 219.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1027,7 +1027,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_beta.pdf, page 3>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_beta.pdf , page3 used on 
-input line 232.
+input line 233.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1038,7 +1038,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_beta.pdf, page 4>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_beta.pdf , page4 used on 
-input line 246.
+input line 247.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1049,7 +1049,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_rho.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_rho.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_rho.pdf , page1 used on i
-nput line 260.
+nput line 261.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (19.53972pt too high) has occurred while \output is active []
@@ -1060,7 +1060,7 @@ Overfull \vbox (19.53972pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_sd_lik.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_sd_lik.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_sd_lik.pdf , page1 used o
-n input line 275.
+n input line 276.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (5.93971pt too high) has occurred while \output is active []
@@ -1071,7 +1071,7 @@ Overfull \vbox (5.93971pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_sd_lik.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_sd_lik.pdf, page 2>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_sd_lik.pdf , page2 used o
-n input line 290.
+n input line 291.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (5.93971pt too high) has occurred while \output is active []
@@ -1082,10 +1082,10 @@ Overfull \vbox (5.93971pt too high) has occurred while \output is active []
 File: b0_6_2/out_con/fig_tracePlot_sd_mis.pdf Graphic file (type pdf)
 <use b0_6_2/out_con/fig_tracePlot_sd_mis.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_con/fig_tracePlot_sd_mis.pdf , page1 used o
-n input line 305.
+n input line 306.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [16 <./b0_6_2/out_con/fig_tracePlot_sd_mis.pdf>]
-Overfull \hbox (98.4356pt too wide) in paragraph at lines 333--354
+Overfull \hbox (98.4356pt too wide) in paragraph at lines 334--355
  [] 
  []
 
@@ -1093,7 +1093,7 @@ Overfull \hbox (98.4356pt too wide) in paragraph at lines 333--354
 File: b0_6_2/out_mTL/fig_postPlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_postPlot_beta.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_postPlot_beta.pdf , page1 used on i
-nput line 360.
+nput line 361.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 [17]
 Overfull \vbox (5.93971pt too high) has occurred while \output is active []
@@ -1104,41 +1104,41 @@ Overfull \vbox (5.93971pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_postPlot_rho.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_postPlot_rho.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_postPlot_rho.pdf , page1 used on in
-put line 372.
+put line 373.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 <b0_6_2/out_mTL/fig_postPlot_sd_lik.pdf, id=218, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_mTL/fig_postPlot_sd_lik.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_postPlot_sd_lik.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_postPlot_sd_lik.pdf , page1 used on
- input line 386.
+ input line 387.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [19 <./b0_6_2/out_mTL/fig_postPlot_rho.pdf>]
 <b0_6_2/out_mTL/fig_postPlot_sd_mis.pdf, id=231, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_mTL/fig_postPlot_sd_mis.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_postPlot_sd_mis.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_postPlot_sd_mis.pdf , page1 used on
- input line 399.
+ input line 400.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [20 <./b0_6_2/out_mTL/fig_postPlot_sd_lik.pdf>]
 <b0_6_2/out_mTL/fig_hist_missing_bod.pdf, id=243, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_mTL/fig_hist_missing_bod.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_hist_missing_bod.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_hist_missing_bod.pdf , page1 used o
-n input line 413.
+n input line 414.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [21 <./b0_6_2/out_mTL/fig_postPlot_sd_mis.pdf>]
 <b0_6_2/out_mTL/fig_hist_residuals.pdf, id=255, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_mTL/fig_hist_residuals.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_hist_residuals.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_hist_residuals.pdf , page1 used on 
-input line 426.
+input line 427.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [22 <./b0_6_2/out_mTL/fig_hist_missing_bod.pdf>]
 <b0_6_2/out_mTL/fig_qqplot_residuals.pdf, id=268, page=1, 505.89pt x 505.89pt>
 File: b0_6_2/out_mTL/fig_qqplot_residuals.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_qqplot_residuals.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_qqplot_residuals.pdf , page1 used o
-n input line 439.
+n input line 440.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 [23 <./b0_6_2/out_mTL/fig_hist_residuals.pdf>]
@@ -1146,7 +1146,7 @@ n input line 439.
 File: b0_6_2/out_mTL/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_beta.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_beta.pdf , page1 used on 
-input line 451.
+input line 452.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [24 <./b0_6_2/out_mTL/fig_qqplot_residuals.pdf>]
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1157,7 +1157,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_beta.pdf, page 2>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_beta.pdf , page2 used on 
-input line 465.
+input line 466.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1168,7 +1168,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_beta.pdf, page 3>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_beta.pdf , page3 used on 
-input line 479.
+input line 480.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1179,7 +1179,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_beta.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_beta.pdf, page 4>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_beta.pdf , page4 used on 
-input line 493.
+input line 494.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (46.73973pt too high) has occurred while \output is active []
@@ -1190,7 +1190,7 @@ Overfull \vbox (46.73973pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_rho.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_rho.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_rho.pdf , page1 used on i
-nput line 507.
+nput line 508.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (19.53972pt too high) has occurred while \output is active []
@@ -1201,7 +1201,7 @@ Overfull \vbox (19.53972pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_sd_lik.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_sd_lik.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_sd_lik.pdf , page1 used o
-n input line 522.
+n input line 523.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (5.93971pt too high) has occurred while \output is active []
@@ -1212,7 +1212,7 @@ Overfull \vbox (5.93971pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_sd_lik.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_sd_lik.pdf, page 2>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_sd_lik.pdf , page2 used o
-n input line 537.
+n input line 538.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
 
 Overfull \vbox (5.93971pt too high) has occurred while \output is active []
@@ -1223,7 +1223,7 @@ Overfull \vbox (5.93971pt too high) has occurred while \output is active []
 File: b0_6_2/out_mTL/fig_tracePlot_sd_mis.pdf Graphic file (type pdf)
 <use b0_6_2/out_mTL/fig_tracePlot_sd_mis.pdf, page 1>
 Package pdftex.def Info: b0_6_2/out_mTL/fig_tracePlot_sd_mis.pdf , page1 used o
-n input line 552.
+n input line 553.
 (pdftex.def)             Requested size: 430.00462pt x 430.01624pt.
  [32 <./b0_6_2/out_mTL/fig_tracePlot_sd_mis.pdf>] [33] (./main.aux)
 Package logreq Info: Writing requests to 'main.run.xml'.
@@ -1233,7 +1233,7 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Here is how much of TeX's memory you used:
  23600 strings out of 478268
  474426 string characters out of 5846347
- 934109 words of memory out of 5000000
+ 934125 words of memory out of 5000000
  41440 multiletter control sequences out of 15000+600000
  489926 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1246,7 +1246,7 @@ ve/2022/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2022/tex
 mf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2022/texmf-dist/fo
 nts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/
 urw/times/utmri8a.pfb>
-Output written on main.pdf (33 pages, 16248592 bytes).
+Output written on main.pdf (33 pages, 16248452 bytes).
 PDF statistics:
  428 PDF objects out of 1000 (max. 8388607)
  315 compressed objects within 4 object streams
