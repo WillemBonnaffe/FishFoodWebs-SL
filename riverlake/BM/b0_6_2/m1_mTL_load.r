@@ -27,7 +27,7 @@
 library(mvtnorm)
 
 ## modules
-source("f_HBM_v0_6.r")
+source("f_HBM_v0_7.r")
 
 ## load dataset
 load("data/dataset_lake_stream_v0_1.rda")
@@ -38,7 +38,7 @@ pto = "out_mTL"
 system(paste("mkdir ",pto,sep=""))
 
 ## response
-response = "Max. Troph. Level"
+response = "Maximum Trophic Level"
 
 #
 ###
@@ -111,7 +111,8 @@ X_pred  = function(x,y,i) cbind(1,(i-1),   x,   x^2,  x*(i-1),  y,  y^2,y*(i-1),
 # ddX.X_pred  = function(x,y,i) cbind(0, 0,  1,   2*x,  (i-1),  0,    0,     0,     y,    y*(i-1),   0,  0) + 
 #                               cbind(0, 0,  0,     0,      0,  1,  2*y, (i-1),     x,    x*(i-1),   0,  0)
 n_beta  = ncol(X_obs)
-colnames(X_obs) = c("1","type","temp","temp^2","temp*type","dob","dob^2","type*dob","temp*dob","temp*dob*type","rich","year")
+# colnames(X_obs) = c("1","type","temp","temp^2","temp*type","dob","dob^2","type*dob","temp*dob","temp*dob*type","rich","year")
+colnames(X_obs) = c("Intercept","Habitat","Temperature","Temperature^2","Temperature * Habitat","BOD","BOD^2","Habitat * BOD","Temperature * BOD","Temperature * BOD * Habitat","Species Richness","Year")
 
 ## missing values
 idx_mis = which(is.na(bod))
