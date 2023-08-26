@@ -20,6 +20,45 @@
 ## FUNCTIONS ##
 ###############
 
+
+## add_axis_and_grid
+## Goal: Add custom axis and grid to plot given the vector of x and y data.
+## Arguments:
+## * x - vector - vector of x coordinates of the data to plot
+## * x_ - vector - vector of standardised x coordinates of the data to plot 
+## * y - vector - vector of y coordinates of the data to plot
+## * y_ - vector - vector of standardised y coordinates of the data to plot
+add_axes_and_grid = function(x, y, alpha)
+{
+  ## format data x
+  alpha_x = alpha[1]
+  lb_x = floor(min(x)/alpha_x)*alpha_x
+  rb_x = ceiling(max(x)/alpha_x)*alpha_x
+  dx = 2.5
+  x = seq(lb_x, rb_x, dx * alpha_x)
+
+  ## format data y
+  alpha_y = alpha[2]
+  lb_y = floor(min(y)/alpha_y)*alpha_y
+  rb_y = ceiling(max(y)/alpha_y)*alpha_y
+  dy = 2.5
+  y = seq(lb_y, rb_y, dy * alpha_y)
+    
+  ## background
+  coords = par("usr")
+  coords_x = coords[1:2]
+  coords_y = coords[3:4]
+  polygon(x=c(coords_x, rev(coords_x)), y=c(c(coords_y[1],coords_y[1]), c(coords_y[2],coords_y[2])), col=adjustcolor("lightgrey",alpha=0.2), border=NA)
+  
+  ## grid guides
+  for (l in 1:length(y)) lines(c(x[1]-10,x[length(x)]+10), c(y[l], y[l]), col="white")
+  for (l in 1:length(x)) lines(c(x[l], x[l]), c(y[1]-10,y[length(y)]+10), col="white")
+  
+  ## x axis
+  axis(1, label=x, at=x, lwd=0, lwd.ticks=1)
+  axis(2, label=y, at=y, lwd=0, lwd.ticks=1)
+}
+
 #
 ###
 
@@ -28,8 +67,8 @@
 ##############
 
 ## load module
-source("m1_con_load.r")
-# source("m1_mTL_load.r")
+# source("m1_con_load.r")
+source("m1_mTL_load.r")
 
 #
 ###
@@ -54,7 +93,7 @@ for(i in 1:length(chainList_thinned))
     colnames(chain_) = c("P",colnames(X_obs))
     chainList_[[i]] = chain_    
 }
-pdf(paste(pto,"/fig_postPlot_beta.pdf",sep="")); chainList.postPlot(chainList_, 1000); dev.off()
+pdf(paste(pto,"/fig_postPlot_beta.pdf",sep="")); chainList.postPlot(chainList_, 1000, use_labels=F); dev.off()
 pdf(paste(pto,"/fig_bayesPlot_beta.pdf",sep="")); chainList.bayesPlot(chainList_); dev.off()
 pdf(paste(pto,"/fig_tracePlot_beta.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
 
@@ -68,10 +107,10 @@ nscode = (summaryTable$signif[-1]=="*")*1
 ## PLOT PREDICTIONS ##
 pdf(paste(pto,"/fig_predictions.pdf",sep=""))
 #
-par(bty="l", cex.lab=1.25, mar=c(2,2,1,1), oma=c(2,2,0,0))
+par(bty="l", cex.lab=1.25, mar=c(2,2,2,2), oma=c(2,2,2,2))
 layout(mat=rbind(c(1,3), c(2,4)))
 #
-mainVect = c("a.","b.")
+mainVect = c("a.","c.")
 colVect = adjustcolor(c("blue","red","blue","red"),alpha=0.9)
 alpha = 0.5
 k = 1
@@ -83,7 +122,8 @@ for(i in 1:2)
   
   ## plot
   plot(X[X[,2]==i-1,3], Y[X[,2]==i-1], 
-       cex=0, xlab="Temperature", 
+       cex=0, 
+       xlab="Temperature", 
        ylab=response,
        xlim=c(min(X[,3]),max(X[,3])), ylim=c(min(Y),max(Y)), 
        xaxt="n", yaxt="n")
@@ -110,20 +150,16 @@ for(i in 1:2)
   axis(2, label=round(y,2), at=y_, lwd=0, lwd.ticks=1)
   
   ## grid guides
-  for (l in 1:length(y_)) lines(c(x_[1]-10,x_[length(x_)]+10), c(y_[l], y_[l]), col="grey")
-  for (l in 1:length(x_)) lines(c(x_[l], x_[l]), c(y_[1]-10,y_[length(y_)]+10), col="grey")
+  for (l in 1:length(y_)) lines(c(x_[1]-10,x_[length(x_)]+10), c(y_[l], y_[l]), col="white")
+  for (l in 1:length(x_)) lines(c(x_[l], x_[l]), c(y_[1]-10,y_[length(y_)]+10), col="white")
   
   ## outer margin labels
   mtext(text=response, side=2, line=2, las=0)
   mtext(text="Temperature", side=1, line=2, las=0)
   
-  ## legend
-  legend("bottom", legend=c("Low BOD","High BOD"), lty=1, col=colVect, bty="n", cex=1.0, horiz=F, lwd=2)
-  legend("topright", legend=paste(mainVect[i],sep=""), bty="n", cex=1.25)
-  
   ## data
-  points(X[X[,2]==i-1,3], Y[X[,2]==i-1], 
-         pch=16, col=adjustcolor("black",alpha=0.25))
+  points(X[X[,2]==i-1,3], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
+  # points(X[X[,2]==i-1,3], Y[X[,2]==i-1], pch=16, col=adjustcolor("black",alpha=0.25))
   
   ## predictions
   Y_ = c(-2,2)
@@ -137,9 +173,13 @@ for(i in 1:2)
     k = k + 1
   }
   
+  ## legend
+  legend("bottomright", legend=c("Low BOD","High BOD"), lty=1, col=colVect, bty="n", cex=1.0, horiz=F, lwd=2)
+  legend("topright", legend=paste(mainVect[i],sep=""), bty="n", cex=1.25)
+  
 }
 #
-mainVect = c("c.","d.")
+mainVect = c("b.","d.")
 alpha = 0.5
 k = 1
 #
@@ -152,7 +192,8 @@ for(i in 1:2)
   
   ## plot
   plot(X[X[,2]==i-1,6], Y[X[,2]==i-1], 
-       cex=0, xlab="BOD", 
+       cex=0, 
+       xlab="BOD", 
        ylab=response,
        xlim=c(min(X[,6]),max(X[,6])), ylim=c(min(Y),max(Y)), 
        xaxt="n", yaxt="n")
@@ -179,20 +220,16 @@ for(i in 1:2)
   axis(2, label=round(y,2), at=y_, lwd=0, lwd.ticks=1)
 
   ## grid guides
-  for (l in 1:length(y_)) lines(c(x_[1]-10,x_[length(x_)]+10), c(y_[l], y_[l]), col="grey")
-  for (l in 1:length(x_)) lines(c(x_[l], x_[l]), c(y_[1]-10,y_[length(y_)]+10), col="grey")
+  for (l in 1:length(y_)) lines(c(x_[1]-10,x_[length(x_)]+10), c(y_[l], y_[l]), col="white")
+  for (l in 1:length(x_)) lines(c(x_[l], x_[l]), c(y_[1]-10,y_[length(y_)]+10), col="white")
     
   ## outer margin labels
   mtext(text=response, side=2, line=2, las=0)
   mtext(text="BOD", side=1, line=2, las=0)
   
-  ## legend
-  legend("bottom", legend=c("Low Temperature","High Temperature"), lty=1, col=colVect, bty="n", cex=1.0, horiz=F, lwd=2)
-  legend("topright", legend=paste(mainVect[i],sep=""), bty="n", cex=1.25)
-  
   ## data
-  points(X[X[,2]==i-1,6], Y[X[,2]==i-1], 
-         pch=16, col=adjustcolor("black",alpha=0.25))
+  points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
+  # points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=adjustcolor("black",alpha=0.25))
   
   ## predictions
   Y_ = c(-2,2)
@@ -206,53 +243,122 @@ for(i in 1:2)
     k = k + 1
   }
   
+  ## legend
+  legend("bottomright", legend=c("Low Temperature","High Temperature"), lty=1, col=colVect, bty="n", cex=1.0, horiz=F, lwd=2)
+  legend("topright", legend=paste(mainVect[i],sep=""), bty="n", cex=1.25)
+  
 }
 #
 par(mfrow=c(1,1))
 #
 dev.off()
 
-# ## VISUALISE INTERACTION ##
-# pdf(paste(pto,"/fig_interactions.pdf",sep=""))
-# #
-# par(mfrow=c(2,2))
-# #
-# main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
-# labs = c("Temperature","BOD")
-# for(i in 1:2)
-# {
-#     ## compute effect matrix
-#     x  = y = seq(-3,3,0.1)
-#     n  = length(x)
-#     IM = matrix(rep(0,n),nrow=n,ncol=n)
-#     f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
-#     for(j in 1:n) IM[,j] = f(x,y[j],i)
-#     #
-#     ## visualise matrix
-#     maxAbsMinMax = max(abs(IM))
-#     levels       = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-#     colorLevels  = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-#     image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2],main=main[i])
-#     contour(IM,add=T)
-#     #
-#     ## axis
-#     x  = seq(-3,3,1)
-#     x_ = x*temp_sd+temp_mean
-#     y  = seq(-3,3,1)
-#     y_ = y*bod_sd+bod_mean
-#     axis(1,label=round(x_,2),at=(x-min(x))/(max(x)-min(x)))
-#     axis(2,label=round(y_,2),at=(y-min(y))/(max(y)-min(y)))
-# }
-# par(mfrow=c(1,1))
-# #
-# dev.off()
+## VISUALISE INTERACTION ##
+pdf(paste(pto,"/fig_interactions.pdf",sep=""))
+#
+par(mfrow=c(2,2))
+main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
+labs = c("Temperature","BOD")
+
+## POSITIVE INTERACTION
+
+## compute effect matrix 
+x  = y = seq(-3,3,0.1)
+n  = length(x)
+IM = matrix(rep(0,n),nrow=n,ncol=n)
+f  = function(x,y,i) x * y
+for(j in 1:n) IM[,j] = f(x,y[j],i)
+IM = (IM - mean(IM))/sd(IM) * Y_sd
+
+## visualise matrix
+maxAbsMinMax = max(abs(IM))
+levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+contour(IM,add=T)
+
+## axis
+x  = seq(6,18,2)
+x_ = (x-temp_mean)/temp_sd
+y  = seq(0,4,1)
+y_ = (y-bod_mean)/bod_sd
+axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+
+## legend
+legend("topright", legend = c("a."), bty="n")
+legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+
+## NEGATIVE INTERACTION
+
+## compute effect matrix
+x  = y = seq(-3,3,0.1)
+n  = length(x)
+IM = matrix(rep(0,n),nrow=n,ncol=n)
+f  = function(x,y,i) - x * y
+for(j in 1:n) IM[,j] = f(x,y[j],i)
+IM = (IM - mean(IM))/sd(IM) * Y_sd
+
+## visualise matrix
+maxAbsMinMax = max(abs(IM))
+levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+contour(IM,add=T)
+
+## axis
+x  = seq(6,18,2)
+x_ = (x-temp_mean)/temp_sd
+y  = seq(0,4,1)
+y_ = (y-bod_mean)/bod_sd
+axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+
+## legend
+legend("topright", legend = c("b."), bty="n")
+legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+
+## ESTIMATED INTERACTION
+
+for(i in 1:2)
+{
+    ## compute effect matrix
+    x  = y = seq(-3,3,0.1)
+    n  = length(x)
+    IM = matrix(rep(0,n),nrow=n,ncol=n)
+    f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
+    for(j in 1:n) IM[,j] = f(x,y[j],i)
+    
+    ## visualise matrix
+    maxAbsMinMax = max(abs(IM))
+    levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+    colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+    image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+    contour(IM,add=T)
+    
+    ## axis
+    x  = seq(6,18,2)
+    x_ = (x-temp_mean)/temp_sd
+    y  = seq(0,4,1)
+    y_ = (y-bod_mean)/bod_sd
+    axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+    axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+    
+    ## legend
+    legend("topright", legend = c("c.", "d.")[i], bty="n")
+}
+
+par(mfrow=c(1,1))
+#
+dev.off()
 
 ## VISUALISE MISSING VS OBSERVED BOD ##
 pdf(paste(pto,"/fig_hist_missing_bod.pdf",sep=""))
 #
 x = density(bod,na.rm=T)$x
 y = density(bod,na.rm=T)$y; y=y/max(y)
-plot(x,y,type="l",col="white",xlab="BOD (SU)",ylab="Density (SU)",main=paste(response," ~ BOD distribution",sep=""))
+plot(x,y,type="l",col="white",xlab="BOD (SU)",ylab="Density (SU)", xaxt="n", yaxt="n", bty="l")
+add_axes_and_grid(x, y, alpha=c(1, 0.1))
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
 #
 bod_mis = chainList.argmaxPost(chainList_thinned)[idx_omega_xmis]
@@ -260,54 +366,70 @@ x = density(bod_mis,na.rm=T)$x
 y = density(bod_mis,na.rm=T)$y; y=y/max(y)
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("red",0.4),border=NA)
 #
-legend("topright",legend=c("Observed","Missing"),col=adjustcolor(c("blue","red"),0.4),lty=1,bty="n")
+legend("topright", legend=c("Observed BOD","Missing BOD"), col=adjustcolor(c("blue","red"),0.4), pch=15, bty="n")
 #
 dev.off()
 
 ## VERIFY MODEL ASSUMPTIONS ##
-x_mis_      = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_xmis],2,mean)
-X_mis_      = X_mis_l * X_mis_r(x_mis_)
-chainList_  = list(chainList.unlist(chainList_thinned)[,-1][,idx_omega_beta])
-Yhat_obs    = chainList.apply(chainList_,function(x)Yhat(X_obs,x))$f_mean
-Yhat_mis    = chainList.apply(chainList_,function(x)Yhat(X_mis_,x))$f_mean
-res_obs     = Y_obs - Yhat_obs
-res_mis     = Y_mis - Yhat_mis
+x_mis_ = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_xmis],2,mean)
+X_mis_ = X_mis_l * X_mis_r(x_mis_)
+chainList_ = list(chainList.unlist(chainList_thinned)[,-1][,idx_omega_beta])
+Yhat_obs = chainList.apply(chainList_,function(x)Yhat(X_obs,x))$f_mean
+Yhat_mis = chainList.apply(chainList_,function(x)Yhat(X_mis_,x))$f_mean
+res_obs = Y_obs - Yhat_obs
+res_mis = Y_mis - Yhat_mis
 
 ## HISTOGRAM OF RESIDUALS ##
 pdf(paste(pto,"/fig_hist_residuals.pdf",sep=""))
 #
+## plot density observed
 x = density(res_obs,na.rm=T)$x
 y = density(res_obs,na.rm=T)$y; y=y/max(y)
-plot(x,y,type="l",col="white",xlab="Residuals",ylab="Density (SU)",main=paste(response," ~ residuals",sep=""))
+plot(x,y,type="l",col="white",xlab="Residuals",ylab="Density (SU)", xaxt="n", yaxt="n", bty="l")
+add_axes_and_grid(x, y, alpha=c(1, .1))
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
 #
+## plot density missing
 x = density(res_mis,na.rm=T)$x
 y = density(res_mis,na.rm=T)$y; y=y/max(y)
 polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("red",0.4),border=NA)
 #
-legend("topright",legend=c("Observed","Missing"),col=adjustcolor(c("blue","red"),0.4),lty=1,bty="n")
+## legend
+legend("topright", legend=c("Observed BOD", "Missing BOD"), col=adjustcolor(c("blue","red"),0.4), pch=15, bty="n")
 #
 dev.off()
 
-## QQ plot
+## QQ PLOT ##
 pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
-#
+par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
 sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
-par(mfrow=c(3,3))
 for(i in 1:n_sd_lik)
 {
-    res_obs_th  = rnorm(length(res_obs),0,sdVect[i])
-    res_mis_th  = rnorm(length(res_mis),0,sdVect[i])
-    #
-    plot(-1:1,xlim=c(-1,1)*4*sd(res_obs_th),ylim=c(-1,1)*4*sd(res_obs),xlab="Theoretical quantiles",ylab="Residuals",main=paste(response," ~ bassin ",i,sep=""),cex=0)
+    
+    ## compute theoretical quantiles
+    res_obs_th = rnorm(length(res_obs),0,sdVect[i])
+    res_mis_th = rnorm(length(res_mis),0,sdVect[i])
+    
+    ## plot 
+    par(xpd=NA)
+    plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+    par(xpd=F)
+    
+    ## grid
+    x = res_obs_th
+    y = res_obs
+    add_axes_and_grid(x, y, alpha=c(1, 1))
+    
+    ## lines
     lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
     lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
     lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
-    #
-    legend("bottomright",legend=c("Observed","Missing"),col=adjustcolor(c("blue","red"),0.4),lty=1,bty="n")
+    
+
+    ## legend
+    legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
 }
 par(mfrow=c(1,1))
-#
 dev.off()
 
 ## VISUALISE VARIANCES POSTERIOR DISTRIBUTIONS ##
@@ -326,9 +448,9 @@ pdf(paste(pto,"/fig_tracePlot_sd_lik.pdf",sep="")); chainList.tracePlot(chainLis
 chainList_  = list()
 for(i in 1:length(chainList_thinned))
 {
-    chain_           = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,c(idx_omega_mu_mis,idx_omega_sd_mis)])
+    chain_ = cbind(chainList_thinned[[i]][,1],chainList_thinned[[i]][,-1][,c(idx_omega_mu_mis,idx_omega_sd_mis)])
     colnames(chain_) = c("P","mu_mis","sd_mis")
-    chainList_[[i]]  = chain_    
+    chainList_[[i]] = chain_    
 }
 pdf(paste(pto,"/fig_postPlot_sd_mis.pdf",sep="")); chainList.postPlot(chainList_,1000); dev.off()
 pdf(paste(pto,"/fig_bayesPlot_sd_mis.pdf",sep="")); chainList.bayesPlot(chainList_); dev.off()
@@ -417,13 +539,13 @@ d_mean   = apply(  d_,2,mean)
 #
 ## visualise correlation with distance
 pdf(paste(pto,"/fig_spatial_autocorrelations.pdf",sep=""));
-plot(d_mean,rho_mean,xlim=c(min(D),max(D)),ylim=c(0,1))
+x = d_mean
+y = rho_mean
+plot(x, y, xlim=c(min(D),max(D)), ylim=c(0,1), xaxt="n", yaxt="n", bty="l")
+add_axes_and_grid(x, y, alpha=c(1, 0.1))
 polygon(x=c(d_mean,rev(d_mean)),y=c(rho_mean+2*rho_sd,rev(rho_mean-2*rho_sd)),border=NA,col=grey(0.5,alpha=0.25))
 lines(d_mean,rho_mean,col="red")
 dev.off()
-
-##
-# dev.off()
 
 #
 ###

@@ -341,7 +341,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   chain = chain[,s]
 
   ## plotting parameters
-  par(mar=c(5.1,6.1,4.1,4.1), oma=c(1,4,1,1))
+  # par(oma=c(1,4,1,1))
 
   ## labels
 	if(is.null(labels)) labels = rownames(estimatesTab)
@@ -353,7 +353,6 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   lim_y = 0:(nrow(estimatesTab)+1)
   lim_y = c(min(lim_y), max(lim_y))
   plot(0:nrow(estimatesTab), cex=0, bty="l", xlim=lim_x, ylim=lim_y, xlab="Estimated Value", ylab="", xaxt="n", yaxt="n", main=main)
-  lines(c(0,0), c(-1,nrow(estimatesTab)+1), lty=3, lwd=2, col="darkgrey")
   
   ## background
   coords = par("usr")
@@ -362,7 +361,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   polygon(x=c(coords_x, rev(coords_x)), y=c(c(coords_y[1],coords_y[1]), c(coords_y[2],coords_y[2])), col=adjustcolor("lightgrey",alpha=0.2), border=NA)
   
   ## x axis
-  x = seq(round(lim_x[1]), round(lim_x[2]), 0.25)
+  x = seq(floor(lim_x[1]), ceiling(lim_x[2]), 0.25)
   axis(side = 1, at = x, labels = x, las=1, lwd=0, lwd.ticks=1)
   
   ## y axis
@@ -373,7 +372,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   ## grid guides
   for (l in 1:length(y)) lines(c(x[1]-10, x[length(x)]+10), c(y[l], y[l]), col="white")
   for (l in 1:length(x)) lines(c(x[l], x[l]), c(y[1]-10, y[length(y)]+10), col="white")
-  lines(c(0,0), c(-1,nrow(estimatesTab)+1), lty=3, lwd=2, col="darkgrey")
+  lines(c(0,0), c(-1,nrow(estimatesTab)+2), lty=3, lwd=2, col="darkgrey")
   
   ## estimates
   for(i in 1:nrow(estimatesTab))
@@ -396,7 +395,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   }
   
   ## plotting parameters
-  par(mar=c(5.1,5.1,4.1,4.1))
+  # par(mar=c(5.1,5.1,4.1,4.1))
 
 }
 
@@ -413,7 +412,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
 # @CMChainList - list - list of CMCchains (i.e. tables)
 # @nPoints - int - number of points per graph window
 
-chainList.postPlot <- function(chainList, nPoints)
+chainList.postPlot <- function(chainList, nPoints, use_labels=T)
 {
   
   chains <- NULL ; for(i in 1:length(chainList)){chains <- rbind(chains, chainList[[i]])}
@@ -421,7 +420,7 @@ chainList.postPlot <- function(chainList, nPoints)
   chains <- chains[order(chains[,1]),]
   
   ## labels
-  if(is.null(colnames(chains))){colnames(chains) <- paste("X",1:ncol(chains))}
+  if(is.null(colnames(chains)) | use_labels == F){colnames(chains) <- paste("X",1:ncol(chains))}
   
   for(i in 1:ncol(chains))
   {
