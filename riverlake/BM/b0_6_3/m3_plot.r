@@ -20,7 +20,6 @@
 ## FUNCTIONS ##
 ###############
 
-
 ## add_axis_and_grid
 ## Goal: Add custom axis and grid to plot given the vector of x and y data.
 ## Arguments:
@@ -67,8 +66,8 @@ add_axes_and_grid = function(x, y, alpha)
 ##############
 
 ## load module
-# source("m1_con_load.r")
-source("m1_mTL_load.r")
+source("m1_con_load.r")
+# source("m1_mTL_load.r")
 
 #
 ###
@@ -253,104 +252,117 @@ par(mfrow=c(1,1))
 #
 dev.off()
 
-## VISUALISE INTERACTION ##
-pdf(paste(pto,"/fig_interactions.pdf",sep=""))
-#
-par(mfrow=c(2,2))
-main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
-labs = c("Temperature","BOD")
-
-## POSITIVE INTERACTION
-
-## compute effect matrix 
-x  = y = seq(-3,3,0.1)
-n  = length(x)
-IM = matrix(rep(0,n),nrow=n,ncol=n)
-f  = function(x,y,i) x * y
-for(j in 1:n) IM[,j] = f(x,y[j],i)
-IM = (IM - mean(IM))/sd(IM) * Y_sd
-
-## visualise matrix
-maxAbsMinMax = max(abs(IM))
-levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-contour(IM,add=T)
-
-## axis
-x  = seq(6,18,2)
-x_ = (x-temp_mean)/temp_sd
-y  = seq(0,4,1)
-y_ = (y-bod_mean)/bod_sd
-axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-
-## legend
-legend("topright", legend = c("a."), bty="n")
-legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-
-## NEGATIVE INTERACTION
-
-## compute effect matrix
-x  = y = seq(-3,3,0.1)
-n  = length(x)
-IM = matrix(rep(0,n),nrow=n,ncol=n)
-f  = function(x,y,i) - x * y
-for(j in 1:n) IM[,j] = f(x,y[j],i)
-IM = (IM - mean(IM))/sd(IM) * Y_sd
-
-## visualise matrix
-maxAbsMinMax = max(abs(IM))
-levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-contour(IM,add=T)
-
-## axis
-x  = seq(6,18,2)
-x_ = (x-temp_mean)/temp_sd
-y  = seq(0,4,1)
-y_ = (y-bod_mean)/bod_sd
-axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-
-## legend
-legend("topright", legend = c("b."), bty="n")
-legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-
-## ESTIMATED INTERACTION
-
-for(i in 1:2)
-{
-    ## compute effect matrix
-    x  = y = seq(-3,3,0.1)
-    n  = length(x)
-    IM = matrix(rep(0,n),nrow=n,ncol=n)
-    f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
-    for(j in 1:n) IM[,j] = f(x,y[j],i)
-    
-    ## visualise matrix
-    maxAbsMinMax = max(abs(IM))
-    levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-    colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-    image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-    contour(IM,add=T)
-    
-    ## axis
-    x  = seq(6,18,2)
-    x_ = (x-temp_mean)/temp_sd
-    y  = seq(0,4,1)
-    y_ = (y-bod_mean)/bod_sd
-    axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-    axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-    
-    ## legend
-    legend("topright", legend = c("c.", "d.")[i], bty="n")
-}
-
-par(mfrow=c(1,1))
-#
-dev.off()
+# ## VISUALISE INTERACTION ##
+# pdf(paste(pto,"/fig_interactions.pdf",sep=""))
+# #
+# par(mfrow=c(2,2), mar=c(2,2,2,2), oma=c(2,2,2,2))
+# main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
+# labs = c("Temperature","BOD")
+# 
+# ## POSITIVE INTERACTION
+# 
+# ## compute effect matrix 
+# x  = y = seq(-3,3,0.1)
+# n  = length(x)
+# IM = matrix(rep(0,n),nrow=n,ncol=n)
+# f  = function(x,y,i) x * y
+# for(j in 1:n) IM[,j] = f(x,y[j],i)
+# IM = (IM - mean(IM))/sd(IM) * Y_sd
+# 
+# ## visualise matrix
+# maxAbsMinMax = max(abs(IM))
+# levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+# colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+# image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+# contour(IM, add=T)
+# 
+# ## axis
+# x  = seq(6,18,2)
+# x_ = (x-temp_mean)/temp_sd
+# y  = seq(0,4,1)
+# y_ = (y-bod_mean)/bod_sd
+# axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+# axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# 
+# ## legend
+# legend("top", legend = c("a. Theoretical positive interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# 
+# ## outer margin labels
+# mtext(text="BOD", side=2, line=2, las=0)
+# mtext(text="Temperature", side=1, line=2, las=0)
+# 
+# ## NEGATIVE INTERACTION
+# 
+# ## compute effect matrix
+# x  = y = seq(-3,3,0.1)
+# n  = length(x)
+# IM = matrix(rep(0,n),nrow=n,ncol=n)
+# f  = function(x,y,i) - x * y
+# for(j in 1:n) IM[,j] = f(x,y[j],i)
+# IM = (IM - mean(IM))/sd(IM) * Y_sd
+# 
+# ## visualise matrix
+# maxAbsMinMax = max(abs(IM))
+# levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+# colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+# image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+# contour(IM, add=T)
+# 
+# ## axis
+# x  = seq(6,18,2)
+# x_ = (x-temp_mean)/temp_sd
+# y  = seq(0,4,1)
+# y_ = (y-bod_mean)/bod_sd
+# axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+# axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# 
+# ## legend
+# legend("top", legend = c("c. Theoretical negative interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# 
+# ## outer margin labels
+# mtext(text="BOD", side=2, line=2, las=0)
+# mtext(text="Temperature", side=1, line=2, las=0)
+# 
+# ## ESTIMATED INTERACTION
+# 
+# for(i in 1:2)
+# {
+#     ## compute effect matrix
+#     x  = y = seq(-3,3,0.1)
+#     n  = length(x)
+#     IM = matrix(rep(0,n),nrow=n,ncol=n)
+#     f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
+#     for(j in 1:n) IM[,j] = f(x,y[j],i)
+#     
+#     ## visualise matrix
+#     maxAbsMinMax = max(abs(IM))
+#     levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+#     colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+#     image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+#     contour(IM,add=T)
+#     
+#     ## axis
+#     x  = seq(6,18,2)
+#     x_ = (x-temp_mean)/temp_sd
+#     y  = seq(0,4,1)
+#     y_ = (y-bod_mean)/bod_sd
+#     axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+#     axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+#     
+#     ## legend
+#     legend("top", legend = c("b. Estimated interaction in streams", "d. Estimated interaction in lakes")[i], bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+#     
+#     ## outer margin labels
+#     mtext(text="BOD", side=2, line=2, las=0)
+#     mtext(text="Temperature", side=1, line=2, las=0)
+#     
+# }
+# 
+# par(mfrow=c(1,1))
+# #
+# dev.off()
 
 ## VISUALISE MISSING VS OBSERVED BOD ##
 pdf(paste(pto,"/fig_hist_missing_bod.pdf",sep=""))
@@ -378,6 +390,7 @@ Yhat_obs = chainList.apply(chainList_,function(x)Yhat(X_obs,x))$f_mean
 Yhat_mis = chainList.apply(chainList_,function(x)Yhat(X_mis_,x))$f_mean
 res_obs = Y_obs - Yhat_obs
 res_mis = Y_mis - Yhat_mis
+res = c(res_obs, res_mis)
 
 ## HISTOGRAM OF RESIDUALS ##
 pdf(paste(pto,"/fig_hist_residuals.pdf",sep=""))
@@ -399,38 +412,142 @@ legend("topright", legend=c("Observed BOD", "Missing BOD"), col=adjustcolor(c("b
 #
 dev.off()
 
-## QQ PLOT ##
+## QQ PLOT - v0_2 ##
 pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
-par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
-sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
-for(i in 1:n_sd_lik)
-{
-    
-    ## compute theoretical quantiles
-    res_obs_th = rnorm(length(res_obs),0,sdVect[i])
-    res_mis_th = rnorm(length(res_mis),0,sdVect[i])
-    
-    ## plot 
-    par(xpd=NA)
-    plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
-    par(xpd=F)
-    
-    ## grid
-    x = res_obs_th
-    y = res_obs
-    add_axes_and_grid(x, y, alpha=c(1, 1))
-    
-    ## lines
-    lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
-    lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
-    lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
-    
+par(mfrow=c(1,1), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
 
-    ## legend
-    legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+## compute parameters
+sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
+rho = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_rho],2,mean)
+
+## compute distance matrix
+long_obs = long[-idx_mis]
+long_mis = long[ idx_mis]
+latt_obs = latt[-idx_mis]
+latt_mis = latt[ idx_mis]
+x_       = c(long_obs,long_mis)
+y_       = c(latt_obs,latt_mis)
+DM        = matrix(rep(0,length(x_)^2),ncol=length(x_),nrow=length(x_))
+for(i in 1:length(x_))
+{
+  for(j in 1:length(y_))
+  {
+    DM[i,j] = sqrt((x_[i] - x_[j])^2 + (y_[i] - y_[j])^2)
+  }
 }
+
+## compute sigma
+Sigma_ = Sigma(sdVect[idx_sd_lik], rho, DM)
+
+## compute theoretical quantiles
+res_th = rmvnorm(n=1, mean=rep(0, n_data), sigma=Sigma_)
+
+## plot 
+par(xpd=NA)
+plot(-1:1, xlim=c(-1,1)*4*sd(res_th), ylim=c(-1,1)*4*sd(res), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+par(xpd=F)
+
+## grid
+x = res_th
+y = res
+add_axes_and_grid(x, y, alpha=c(1, 1))
+
+## lines
+lines(sort(res_th), sort(res), type="p", pch=16, col=gray(runif(n_data, .25, 1), alpha=0.25))
+lines((-1:1)*4*sd(res_th),(-1:1)*4*sd(res_th),lty=2)
+
+## legend
+# legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+
 par(mfrow=c(1,1))
 dev.off()
+
+# ## QQ PLOT - v0_1 ##
+# pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
+# par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
+# 
+# ## compute parameters
+# sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
+# rho = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_rho],2,mean)
+# 
+# ## compute distance matrix
+# long_obs = long[-idx_mis]
+# long_mis = long[ idx_mis]
+# latt_obs = latt[-idx_mis]
+# latt_mis = latt[ idx_mis]
+# x_       = c(long_obs,long_mis)
+# y_       = c(latt_obs,latt_mis)
+# DM        = matrix(rep(0,length(x_)^2),ncol=length(x_),nrow=length(x_))
+# for(i in 1:length(x_))
+# {
+#   for(j in 1:length(y_))
+#   {
+#     DM[i,j] = sqrt((x_[i] - x_[j])^2 + (y_[i] - y_[j])^2)
+#   }
+# }
+# 
+# ## compute sigma
+# Sigma_ = Sigma(sdVect[idx_sd_lik], rho, DM)
+# 
+# ## compute theoretical quantiles
+# res_th = rmvnorm(n=1, mean=rep(0, n_data), sigma=Sigma_)
+# res_obs_th = res_th[-idx_mis]
+# res_mis_th = res_th[idx_mis]
+# 
+# ## plot
+# par(xpd=NA)
+# plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+# par(xpd=F)
+# 
+# ## grid
+# x = res_obs_th
+# y = res_obs
+# add_axes_and_grid(x, y, alpha=c(1, 1))
+# 
+# ## lines
+# lines(sort(res_th),sort(res),col=adjustcolor("black",.4),type="p")
+# lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
+# lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
+# lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
+# lines((-1:1)*4*sd(res_mis_th),(-1:1)*4*sd(res_mis),lty=2)
+# 
+# ## legend
+# legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+# 
+# par(mfrow=c(1,1))
+# dev.off()
+
+# ## QQ PLOT - v0_0 ##
+# pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
+# par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
+# sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
+# for(i in 1:n_sd_lik)
+# {
+#     
+#     ## compute theoretical quantiles
+#     res_obs_th = rnorm(length(res_obs),0,sdVect[i])
+#     res_mis_th = rnorm(length(res_mis),0,sdVect[i])
+#     
+#     ## plot 
+#     par(xpd=NA)
+#     plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+#     par(xpd=F)
+#     
+#     ## grid
+#     x = res_obs_th
+#     y = res_obs
+#     add_axes_and_grid(x, y, alpha=c(1, 1))
+#     
+#     ## lines
+#     lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
+#     lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
+#     lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
+#     
+#     ## legend
+#     legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+# }
+# par(mfrow=c(1,1))
+# dev.off()
 
 ## VISUALISE VARIANCES POSTERIOR DISTRIBUTIONS ##
 chainList_  = list()
