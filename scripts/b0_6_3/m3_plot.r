@@ -225,6 +225,7 @@ for(i in 1:2)
   ## outer margin labels
   mtext(text=response, side=2, line=2, las=0)
   mtext(text="BOD", side=1, line=2, las=0)
+  mtext(text=c("Streams", "Lakes")[i], side=4, line=2, las=0, cex=1.5)
   
   ## data
   points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
@@ -259,71 +260,71 @@ dev.off()
 # main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
 # labs = c("Temperature","BOD")
 # 
-# ## POSITIVE INTERACTION
-# 
-# ## compute effect matrix
-# x  = y = seq(-3,3,0.1)
-# n  = length(x)
-# IM = matrix(rep(0,n),nrow=n,ncol=n)
-# f  = function(x,y,i) x * y
-# for(j in 1:n) IM[,j] = f(x,y[j],i)
-# IM = (IM - mean(IM))/sd(IM) * Y_sd
-# 
-# ## visualise matrix
-# maxAbsMinMax = max(abs(IM))
-# levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-# colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-# image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-# contour(IM, add=T)
-# 
-# ## axis
-# x  = seq(6,18,2)
-# x_ = (x-temp_mean)/temp_sd
-# y  = seq(0,4,1)
-# y_ = (y-bod_mean)/bod_sd
-# axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-# axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-# 
-# ## legend
-# legend("top", legend = c("a. Theoretical positive interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-# # legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-# 
-# ## outer margin labels
-# mtext(text="BOD", side=2, line=2, las=0)
-# mtext(text="Temperature", side=1, line=2, las=0)
-# 
-# ## NEGATIVE INTERACTION
-# 
-# ## compute effect matrix
-# x  = y = seq(-3,3,0.1)
-# n  = length(x)
-# IM = matrix(rep(0,n),nrow=n,ncol=n)
-# f  = function(x,y,i) - x * y
-# for(j in 1:n) IM[,j] = f(x,y[j],i)
-# IM = (IM - mean(IM))/sd(IM) * Y_sd
-# 
-# ## visualise matrix
-# maxAbsMinMax = max(abs(IM))
-# levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-# colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-# image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-# contour(IM, add=T)
-# 
-# ## axis
-# x  = seq(6,18,2)
-# x_ = (x-temp_mean)/temp_sd
-# y  = seq(0,4,1)
-# y_ = (y-bod_mean)/bod_sd
-# axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-# axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-# 
-# ## legend
-# legend("top", legend = c("b. Theoretical negative interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-# # legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-# 
-# ## outer margin labels
-# mtext(text="BOD", side=2, line=2, las=0)
-# mtext(text="Temperature", side=1, line=2, las=0)
+# # ## POSITIVE INTERACTION
+# # 
+# # ## compute effect matrix
+# # x  = y = seq(-3,3,0.1)
+# # n  = length(x)
+# # IM = matrix(rep(0,n),nrow=n,ncol=n)
+# # f  = function(x,y,i) (x * y > 0)*2 - 1
+# # for(j in 1:n) IM[,j] = f(x,y[j],i)
+# # IM = (IM - mean(IM))/sd(IM) * Y_sd
+# # 
+# # ## visualise matrix
+# # maxAbsMinMax = max(abs(IM))
+# # levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+# # colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+# # image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+# # contour(IM, add=T)
+# # 
+# # ## axis
+# # x  = seq(6,18,2)
+# # x_ = (x-temp_mean)/temp_sd
+# # y  = seq(0,4,1)
+# # y_ = (y-bod_mean)/bod_sd
+# # axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+# # axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# # 
+# # ## legend
+# # legend("top", legend = c("a. Theoretical positive interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # # legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # 
+# # ## outer margin labels
+# # mtext(text="BOD", side=2, line=2, las=0)
+# # mtext(text="Temperature", side=1, line=2, las=0)
+# # 
+# # ## NEGATIVE INTERACTION
+# # 
+# # ## compute effect matrix
+# # x  = y = seq(-3,3,0.1)
+# # n  = length(x)
+# # IM = matrix(rep(0,n),nrow=n,ncol=n)
+# # f  = function(x,y,i) - x * y
+# # for(j in 1:n) IM[,j] = f(x,y[j],i)
+# # IM = (IM - mean(IM))/sd(IM) * Y_sd
+# # 
+# # ## visualise matrix
+# # maxAbsMinMax = max(abs(IM))
+# # levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+# # colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+# # image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+# # contour(IM, add=T)
+# # 
+# # ## axis
+# # x  = seq(6,18,2)
+# # x_ = (x-temp_mean)/temp_sd
+# # y  = seq(0,4,1)
+# # y_ = (y-bod_mean)/bod_sd
+# # axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+# # axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# # 
+# # ## legend
+# # legend("top", legend = c("b. Theoretical negative interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # # legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # 
+# # ## outer margin labels
+# # mtext(text="BOD", side=2, line=2, las=0)
+# # mtext(text="Temperature", side=1, line=2, las=0)
 # 
 # ## ESTIMATED INTERACTION
 # 
@@ -335,12 +336,17 @@ dev.off()
 #     IM = matrix(rep(0,n),nrow=n,ncol=n)
 #     f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
 #     for(j in 1:n) IM[,j] = f(x,y[j],i)
+#     
+#     ## standardise
+#     IM_ = IM
+#     IM =  IM_ * Y_sd + Y_mean
+#     IM_ = (IM_ - mean(IM_))/sd(IM_)
 # 
 #     ## visualise matrix
-#     maxAbsMinMax = max(abs(IM))
+#     maxAbsMinMax = max(abs(IM_))
 #     levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-#     colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-#     image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+#     colorLevels = rev(rainbow(1000,start=0.2,end=0.8,alpha=0.5))
+#     image(IM_,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2], main = c("a. Streams max trophic level", "b. Lakes max trophic level")[i])
 #     contour(IM,add=T)
 # 
 #     ## axis
@@ -352,7 +358,7 @@ dev.off()
 #     axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
 # 
 #     ## legend
-#     legend("top", legend = c("c. Estimated interaction in streams", "d. Estimated interaction in lakes")[i], bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+#     # legend("top", legend = c("a. Estimated interaction in streams", "b. Estimated interaction in lakes")[i], bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
 # 
 #     ## outer margin labels
 #     mtext(text="BOD", side=2, line=2, las=0)
