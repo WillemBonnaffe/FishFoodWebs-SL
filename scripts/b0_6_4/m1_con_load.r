@@ -213,8 +213,8 @@ logPri     = function(beta,sd_lik,rho,mu_mis,sd_mis)
              sum(dlnorm(sd_lik,0, 1,log=T)) + 
                   dbeta(rho[1],2, 5,log=T)  +
                  dlnorm(rho[2],0, 1,log=T)  +
-                  dnorm(mu_mis,0,.1,log=T)  + 
-                 dlnorm(sd_mis,0,.1,log=T) 
+                  dnorm(mu_mis,0,.5,log=T)  + # changed from 0.1 to 0.5
+                 dlnorm(sd_mis,0,.5,log=T) # changed from 0.1 to 0.5
 	return(logPri)
 }
 
