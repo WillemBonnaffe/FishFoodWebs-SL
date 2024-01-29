@@ -64,7 +64,7 @@ tail(primerChain_wrapped[1,])
 ## RESUME DEMC SAMPLING
 
 ## chain
-nIt = 1000
+nIt = 100000
 chain = DEMCpp(list("dTarget" = dTarget, 
                     "epsilon" = 0.001, 
                     "nIt" = nIt, 
