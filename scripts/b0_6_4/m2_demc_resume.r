@@ -44,14 +44,14 @@ dim(primerChain)
 ## Wrap chain (it was unwrapped before saving)
 primerChain[,-1] = t(apply(primerChain[,-1],1,wrap))
 
-## Check
-primerChain_unwrapped = primerChain
-primerChain_wrapped = primerChain
-primerChain_wrapped[,-1] = t(apply(primerChain[,-1],1,wrap))
-primerChain_wrapped[,-1] = t(apply(primerChain_wrapped[,-1],1,unwrap))
-tail(primerChain_unwrapped[1,])
-tail(primerChain_wrapped[1,])
-## OK wrapping unwrapping works
+# ## Check
+# primerChain_unwrapped = primerChain
+# primerChain_wrapped = primerChain
+# primerChain_wrapped[,-1] = t(apply(primerChain[,-1],1,wrap))
+# primerChain_wrapped[,-1] = t(apply(primerChain_wrapped[,-1],1,unwrap))
+# tail(primerChain_unwrapped[1,])
+# tail(primerChain_wrapped[1,])
+# ## OK wrapping unwrapping works
 
 #
 ###

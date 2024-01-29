@@ -330,7 +330,8 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   ## estimates
   estimatesTab <- chainList.summary(chainList)[["estimates"]]
   estimatesTab <- estimatesTab[-1,]
-  s = rev(order(estimatesTab[,"mean"]))
+  s = length(estimatesTab[,"mean"]):1
+  # s = rev(order(estimatesTab[,"mean"])) # normal version
   estimatesTab <- estimatesTab[s,]
   
   ## significance
@@ -379,7 +380,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   {
     
     ## check significance
-    if (pvalues[i] == "*") text(estimatesTab[i,"mean"] + 0.05 * dx + 4 * estimatesTab[i,"sd"], i, labels = "*", cex=2)
+    if (pvalues[i] == "*") text(estimatesTab[i,"mean"] + 0.05 * dx + 4 * estimatesTab[i,"sd"], i, labels = "*", cex=2, col="red")
     
     ## density
     density_ = density(x=chain[,i])
