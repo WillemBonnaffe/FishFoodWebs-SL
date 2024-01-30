@@ -66,8 +66,8 @@ add_axes_and_grid = function(x, y, alpha)
 ##############
 
 ## load module
-source("m1_con_load.r")
-# source("m1_mTL_load.r")
+# source("m1_con_load.r")
+source("m1_mTL_load.r")
 
 #
 ###
@@ -159,6 +159,12 @@ for(i in 1:2)
   ## data
   points(X[X[,2]==i-1,3], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
   # points(X[X[,2]==i-1,3], Y[X[,2]==i-1], pch=16, col=adjustcolor("black",alpha=0.25))
+  colour_index = X[X[,2]==i-1,6]
+  colour_index = (colour_index > quantile(colour_index, 0.95))
+  points(X[X[,2]==i-1,3][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("green",alpha=0.5), cex=0.75)
+  colour_index = X[X[,2]==i-1,6]
+  colour_index = (colour_index < quantile(colour_index, 0.05))
+  points(X[X[,2]==i-1,3][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("blue",alpha=0.5), cex=0.75)
   
   ## predictions
   Y_ = c(-2,2)
@@ -234,6 +240,12 @@ for(i in 1:2)
   ## data
   points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
   # points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=adjustcolor("black",alpha=0.25))
+  colour_index = X[X[,2]==i-1,3]
+  colour_index = (colour_index > quantile(colour_index, 0.95))
+  points(X[X[,2]==i-1,6][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("green",alpha=0.5), cex=0.75)
+  colour_index = X[X[,2]==i-1,3]
+  colour_index = (colour_index < quantile(colour_index, 0.05))
+  points(X[X[,2]==i-1,6][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("blue",alpha=0.5), cex=0.75)
   
   ## predictions
   Y_ = c(-2,2)
@@ -402,44 +414,99 @@ legend("topright", legend=c("Observed BOD","Missing BOD"), col=adjustcolor(c("bl
 #
 dev.off()
 
-# ## VERIFY MODEL ASSUMPTIONS ##
-# x_mis_ = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_xmis],2,mean)
-# X_mis_ = X_mis_l * X_mis_r(x_mis_)
-# chainList_ = list(chainList.unlist(chainList_thinned)[,-1][,idx_omega_beta])
-# Yhat_obs = chainList.apply(chainList_,function(x)Yhat(X_obs,x))$f_mean
-# Yhat_mis = chainList.apply(chainList_,function(x)Yhat(X_mis_,x))$f_mean
-# res_obs = Y_obs - Yhat_obs
-# res_mis = Y_mis - Yhat_mis
-# res = c(res_obs, res_mis)
-# 
-# ## HISTOGRAM OF RESIDUALS ##
-# pdf(paste(pto,"/fig_hist_residuals.pdf",sep=""))
-# #
-# ## plot density observed
-# x = density(res_obs,na.rm=T)$x
-# y = density(res_obs,na.rm=T)$y; y=y/max(y)
-# plot(x,y,type="l",col="white",xlab="Residuals",ylab="Density (SU)", xaxt="n", yaxt="n", bty="l")
-# add_axes_and_grid(x, y, alpha=c(1, .1))
-# polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
-# #
-# ## plot density missing
-# x = density(res_mis,na.rm=T)$x
-# y = density(res_mis,na.rm=T)$y; y=y/max(y)
-# polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("red",0.4),border=NA)
-# #
-# ## legend
-# legend("topright", legend=c("Observed BOD", "Missing BOD"), col=adjustcolor(c("blue","red"),0.4), pch=15, bty="n")
-# #
-# dev.off()
-# 
-# ## QQ PLOT - v0_2 ##
+## VERIFY MODEL ASSUMPTIONS ##
+x_mis_ = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_xmis],2,mean)
+X_mis_ = X_mis_l * X_mis_r(x_mis_)
+chainList_ = list(chainList.unlist(chainList_thinned)[,-1][,idx_omega_beta])
+Yhat_obs = chainList.apply(chainList_,function(x)Yhat(X_obs,x))$f_mean
+Yhat_mis = chainList.apply(chainList_,function(x)Yhat(X_mis_,x))$f_mean
+res_obs = Y_obs - Yhat_obs
+res_mis = Y_mis - Yhat_mis
+res = c(res_obs, res_mis)
+
+## COMPUTE R2 ##
+Y_tot = c(Y_obs, Y_mis)
+r2 = 1 - sd(res)^2/sd(Y_tot)^2
+print(paste("r2 = ", round(r2,2), sep=""))
+
+## HISTOGRAM OF RESIDUALS ##
+pdf(paste(pto,"/fig_hist_residuals.pdf",sep=""))
+#
+## plot density observed
+x = density(res_obs,na.rm=T)$x
+y = density(res_obs,na.rm=T)$y; y=y/max(y)
+plot(x,y,type="l",col="white",xlab="Residuals",ylab="Density (SU)", xaxt="n", yaxt="n", bty="l")
+add_axes_and_grid(x, y, alpha=c(1, .1))
+polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("blue",0.4),border=NA)
+#
+## plot density missing
+x = density(res_mis,na.rm=T)$x
+y = density(res_mis,na.rm=T)$y; y=y/max(y)
+polygon(x=c(x,rev(x)),y=c(rep(0,length(y)),rev(y)),col=adjustcolor("red",0.4),border=NA)
+#
+## legend
+legend("topright", legend=c("Observed BOD", "Missing BOD"), col=adjustcolor(c("blue","red"),0.4), pch=15, bty="n")
+#
+dev.off()
+
+## QQ PLOT - v0_2 ##
+pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
+par(mfrow=c(1,1), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
+
+## compute parameters
+sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
+rho = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_rho],2,mean)
+
+## compute distance matrix
+long_obs = long[-idx_mis]
+long_mis = long[ idx_mis]
+latt_obs = latt[-idx_mis]
+latt_mis = latt[ idx_mis]
+x_       = c(long_obs,long_mis)
+y_       = c(latt_obs,latt_mis)
+DM        = matrix(rep(0,length(x_)^2),ncol=length(x_),nrow=length(x_))
+for(i in 1:length(x_))
+{
+  for(j in 1:length(y_))
+  {
+    DM[i,j] = sqrt((x_[i] - x_[j])^2 + (y_[i] - y_[j])^2)
+  }
+}
+
+## compute sigma
+Sigma_ = Sigma(sdVect[idx_sd_lik], rho, DM)
+
+## compute theoretical quantiles
+res_th = rmvnorm(n=1, mean=rep(0, n_data), sigma=Sigma_)
+
+## plot
+par(xpd=NA)
+plot(-1:1, xlim=c(-1,1)*4*sd(res_th), ylim=c(-1,1)*4*sd(res), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+par(xpd=F)
+
+## grid
+x = res_th
+y = res
+add_axes_and_grid(x, y, alpha=c(1, 1))
+
+## lines
+lines(sort(res_th), sort(res), type="p", pch=16, col=gray(runif(n_data, .25, 1), alpha=0.25))
+lines((-1:1)*4*sd(res_th),(-1:1)*4*sd(res_th),lty=2)
+
+## legend
+# legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+
+par(mfrow=c(1,1))
+dev.off()
+
+# ## QQ PLOT - v0_1 ##
 # pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
-# par(mfrow=c(1,1), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
-# 
+# par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
+#
 # ## compute parameters
 # sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
 # rho = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_rho],2,mean)
-# 
+#
 # ## compute distance matrix
 # long_obs = long[-idx_mis]
 # long_mis = long[ idx_mis]
@@ -455,119 +522,69 @@ dev.off()
 #     DM[i,j] = sqrt((x_[i] - x_[j])^2 + (y_[i] - y_[j])^2)
 #   }
 # }
-# 
+#
 # ## compute sigma
 # Sigma_ = Sigma(sdVect[idx_sd_lik], rho, DM)
-# 
+#
 # ## compute theoretical quantiles
 # res_th = rmvnorm(n=1, mean=rep(0, n_data), sigma=Sigma_)
-# 
-# ## plot 
+# res_obs_th = res_th[-idx_mis]
+# res_mis_th = res_th[idx_mis]
+#
+# ## plot
 # par(xpd=NA)
-# plot(-1:1, xlim=c(-1,1)*4*sd(res_th), ylim=c(-1,1)*4*sd(res), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+# plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
 # par(xpd=F)
-# 
+#
 # ## grid
-# x = res_th
-# y = res
+# x = res_obs_th
+# y = res_obs
 # add_axes_and_grid(x, y, alpha=c(1, 1))
-# 
+#
 # ## lines
-# lines(sort(res_th), sort(res), type="p", pch=16, col=gray(runif(n_data, .25, 1), alpha=0.25))
-# lines((-1:1)*4*sd(res_th),(-1:1)*4*sd(res_th),lty=2)
-# 
+# lines(sort(res_th),sort(res),col=adjustcolor("black",.4),type="p")
+# lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
+# lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
+# lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
+# lines((-1:1)*4*sd(res_mis_th),(-1:1)*4*sd(res_mis),lty=2)
+#
 # ## legend
-# # legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
-# 
+# legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+#
 # par(mfrow=c(1,1))
 # dev.off()
-# 
-# # ## QQ PLOT - v0_1 ##
-# # pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
-# # par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
-# # 
-# # ## compute parameters
-# # sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
-# # rho = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_rho],2,mean)
-# # 
-# # ## compute distance matrix
-# # long_obs = long[-idx_mis]
-# # long_mis = long[ idx_mis]
-# # latt_obs = latt[-idx_mis]
-# # latt_mis = latt[ idx_mis]
-# # x_       = c(long_obs,long_mis)
-# # y_       = c(latt_obs,latt_mis)
-# # DM        = matrix(rep(0,length(x_)^2),ncol=length(x_),nrow=length(x_))
-# # for(i in 1:length(x_))
-# # {
-# #   for(j in 1:length(y_))
-# #   {
-# #     DM[i,j] = sqrt((x_[i] - x_[j])^2 + (y_[i] - y_[j])^2)
-# #   }
-# # }
-# # 
-# # ## compute sigma
-# # Sigma_ = Sigma(sdVect[idx_sd_lik], rho, DM)
-# # 
-# # ## compute theoretical quantiles
-# # res_th = rmvnorm(n=1, mean=rep(0, n_data), sigma=Sigma_)
-# # res_obs_th = res_th[-idx_mis]
-# # res_mis_th = res_th[idx_mis]
-# # 
-# # ## plot
-# # par(xpd=NA)
-# # plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
-# # par(xpd=F)
-# # 
-# # ## grid
-# # x = res_obs_th
-# # y = res_obs
-# # add_axes_and_grid(x, y, alpha=c(1, 1))
-# # 
-# # ## lines
-# # lines(sort(res_th),sort(res),col=adjustcolor("black",.4),type="p")
-# # lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
-# # lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
-# # lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
-# # lines((-1:1)*4*sd(res_mis_th),(-1:1)*4*sd(res_mis),lty=2)
-# # 
-# # ## legend
-# # legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
-# # 
-# # par(mfrow=c(1,1))
-# # dev.off()
-# 
-# # ## QQ PLOT - v0_0 ##
-# # pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
-# # par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
-# # sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
-# # for(i in 1:n_sd_lik)
-# # {
-# #     
-# #     ## compute theoretical quantiles
-# #     res_obs_th = rnorm(length(res_obs),0,sdVect[i])
-# #     res_mis_th = rnorm(length(res_mis),0,sdVect[i])
-# #     
-# #     ## plot 
-# #     par(xpd=NA)
-# #     plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
-# #     par(xpd=F)
-# #     
-# #     ## grid
-# #     x = res_obs_th
-# #     y = res_obs
-# #     add_axes_and_grid(x, y, alpha=c(1, 1))
-# #     
-# #     ## lines
-# #     lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
-# #     lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
-# #     lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
-# #     
-# #     ## legend
-# #     legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
-# # }
-# # par(mfrow=c(1,1))
-# # dev.off()
+
+# ## QQ PLOT - v0_0 ##
+# pdf(paste(pto,"/fig_qqplot_residuals.pdf",sep=""))
+# par(mfrow=c(3,3), mar=c(3,3,2,2), oma=c(2,2,2,2), xpd=NA)
+# sdVect = apply(chainList.unlist(chainList_thinned)[,-1][,idx_omega_sd_lik],2,mean)
+# for(i in 1:n_sd_lik)
+# {
+#
+#     ## compute theoretical quantiles
+#     res_obs_th = rnorm(length(res_obs),0,sdVect[i])
+#     res_mis_th = rnorm(length(res_mis),0,sdVect[i])
+#
+#     ## plot
+#     par(xpd=NA)
+#     plot(-1:1, xlim=c(-1,1)*4*sd(res_obs_th), ylim=c(-1,1)*4*sd(res_obs), xlab="Theoretical quantiles", ylab="Residuals", cex=0, xaxt="n", yaxt="n", bty="l")
+#     par(xpd=F)
+#
+#     ## grid
+#     x = res_obs_th
+#     y = res_obs
+#     add_axes_and_grid(x, y, alpha=c(1, 1))
+#
+#     ## lines
+#     lines(sort(res_obs_th),sort(res_obs),col=adjustcolor("blue",.4),type="p")
+#     lines(sort(res_mis_th),sort(res_mis),col=adjustcolor("red",.4),type="p")
+#     lines((-1:1)*4*sd(res_obs_th),(-1:1)*4*sd(res_obs),lty=2)
+#
+#     ## legend
+#     legend("bottomright",legend=c(paste("Bassin ",i,sep=""),"Observed BOD","Missing BOD"),col=adjustcolor(c("white","blue","red"),0.4), pch=1, bty="n")
+# }
+# par(mfrow=c(1,1))
+# dev.off()
 # 
 # ## VISUALISE VARIANCES POSTERIOR DISTRIBUTIONS ##
 # chainList_  = list()

@@ -251,7 +251,7 @@ chainList.summary <- function(chainList)
     MaP=as.vector(t(chains[which.max(chains[,1]),])),
     mean=apply(X=chains, FUN=mean, MARGIN=2),
     sd=apply(X=chains, FUN=sd, MARGIN=2),
-    t(apply(X=chains, FUN=quantile, MARGIN=2, probs=c(0.05,0.5,0.95))),
+    t(apply(X=chains, FUN=quantile, MARGIN=2, probs=c(0.025,0.5,0.975))),
     r_hat)
 	# signif =  gsub("1",x=gsub(pattern="0",x=t(apply(estimatesTab[,c(4,6)]>0,1,diff)),replacement="*"),"ns")
 	# estimatesTab = data.frame(cbind(round(estimatesTab,4),signif))
@@ -300,7 +300,7 @@ chainList.summaryTab <- function(chainList)
     MaP=as.vector(t(chains[which.max(chains[,1]),])),
     mean=apply(X=chains, FUN=mean, MARGIN=2),
     sd=apply(X=chains, FUN=sd, MARGIN=2),
-    t(apply(X=chains, FUN=quantile, MARGIN=2, probs=c(0.05,0.5,0.95))),
+    t(apply(X=chains, FUN=quantile, MARGIN=2, probs=c(0.025,0.5,0.975))),
     r_hat)
 	signif =  gsub("1",x=gsub(pattern="0",x=t(apply(estimatesTab[,c(4,6)]>0,1,diff)),replacement="*"),"ns")
 	estimatesTab = data.frame(cbind(round(estimatesTab,4),signif))
@@ -348,7 +348,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
 	if(is.null(labels)) labels = rownames(estimatesTab)
   
   ## plot
-  lim_x = c(min(c(0,estimatesTab[,"5%"])),max(c(0,estimatesTab[,"95%"])))
+  lim_x = c(min(c(0,estimatesTab[,"2.5%"])),max(c(0,estimatesTab[,"97.5%"])))
   dx = diff(lim_x)
   lim_x = lim_x + 0.25 * c(-1,1) * dx
   lim_y = 0:(nrow(estimatesTab)+1)
@@ -389,7 +389,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
     polygon(x=c(density_x, rev(density_x)), y= c(i, i) + c(density_y, -rev(density_y)), border=NA, col="grey")
     
     ## mean and CI
-    lines(estimatesTab[i,c("5%","95%")],c(i,i),col="red", lwd=2);
+    lines(estimatesTab[i,c("2.5%","97.5%")],c(i,i),col="red", lwd=2);
     points(estimatesTab[i,"mean"],i, pch=16)  
     lines(c(estimatesTab[i,"mean"]-1*estimatesTab[i,"sd"],estimatesTab[i,"mean"]+1*estimatesTab[i,"sd"]),c(i,i),lwd=2, col="black"); 
     
