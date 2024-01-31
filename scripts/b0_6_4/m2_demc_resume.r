@@ -29,8 +29,8 @@ library(Rcpp)
 sourceCpp("cpp/DEMCpp_v0.2.cpp")
 
 ## load data and model
-source("m1_con_load.r")
-# source("m1_mTL_load.r")
+# source("m1_con_load.r")
+source("m1_mTL_load.r")
 
 ## chain name
 chainName = "chain_thinned_1_resumed"
