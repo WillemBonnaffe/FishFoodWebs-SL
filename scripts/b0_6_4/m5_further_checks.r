@@ -133,6 +133,8 @@ sites_mis_msampled = names(table(sites_mis))[idx_msample_mis]
 ## Fraction of multiply sampled sites
 prop_msampled_obs = length(sites_obs_msampled)/length(table(sites_obs))
 print(prop_msampled_obs)
+quantile(table(sites_obs))
+quantile(table(sites_mis))
 
 ## Looking at residual time series for multiple sites
 plot(1:10, cex=0, ylim=c(-3,3), xlim=c(0,12))
