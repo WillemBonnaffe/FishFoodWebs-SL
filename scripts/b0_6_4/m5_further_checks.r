@@ -133,6 +133,8 @@ sites_mis_msampled = names(table(sites_mis))[idx_msample_mis]
 ## Fraction of multiply sampled sites
 prop_msampled_obs = length(sites_obs_msampled)/length(table(sites_obs))
 print(prop_msampled_obs)
+prop_msampled_mis = length(sites_mis_msampled)/length(table(sites_mis))
+print(prop_msampled_mis)
 quantile(table(sites_obs))
 quantile(table(sites_mis))
 
