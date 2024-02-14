@@ -68,11 +68,11 @@ for(i in 1:length(chainList_thinned))
 chainList_con = chainList_
 
 ## COMBINED BAYES PLOT ##
-system("mkdir out")
-pdf(paste("out/fig_bayesPlot_beta.pdf",sep=""), width=12, height=6) 
+system("mkdir out_combined")
+pdf(paste("out_combined/fig_bayesPlot_beta.pdf",sep=""), width=12, height=6) 
 
 ## plot
-par(mfrow=c(1,2), mar=c(7,8,2,2), oma=c(2,4,2,2))
+par(mfrow=c(1,2), mar=c(4,1,1,1), oma=c(2,14,2,2))
 chainList.bayesPlot(chainList_mtl)
 # legend("topright", "a.", bty="n")
 ## add the label above the plot
@@ -80,7 +80,7 @@ x <- par("usr")[2] - 0.05  # Adjust the x-coordinate as needed
 y <- par("usr")[4] + 0.05  # Adjust the y-coordinate to position it above the plot
 mtext(text = "a.", side = 3, line = 1, at = x, cex = 1.25)
 #
-chainList.bayesPlot(chainList_con)
+chainList.bayesPlot(chainList_con, labels = c(""))
 # legend("topright", "b.", bty="n")
 ## add the label above the plot
 x <- par("usr")[2] - 0.05  # Adjust the x-coordinate as needed

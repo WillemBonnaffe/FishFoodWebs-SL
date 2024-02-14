@@ -368,7 +368,7 @@ chainList.bayesPlot <- function(chainList, logTransform=F, labels=NULL, main="")
   ## y axis
   y = 1:nrow(estimatesTab)
   axis(side = 2, at = 1:nrow(estimatesTab), labels = NA, las=1, lwd=0, lwd.ticks=1)
-  text(x=par("usr")[1]-0.1, y=1:nrow(estimatesTab), labels=labels, srt=45, xpd=NA, adj=1.0)
+  text(x=par("usr")[1]-0.1, y=1:nrow(estimatesTab), labels=labels, srt=0, xpd=NA, adj=1.0)
   
   ## grid guides
   for (l in 1:length(y)) lines(c(x[1]-10, x[length(x)]+10), c(y[l], y[l]), col="white")

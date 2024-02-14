@@ -66,8 +66,11 @@ add_axes_and_grid = function(x, y, alpha)
 ##############
 
 ## load module
-# source("m1_con_load.r")
-source("m1_mTL_load.r")
+source("m1_con_load.r")
+# source("m1_mTL_load.r")
+
+## Change output director
+pto = paste(pto, "robustness", sep="_")
 
 #
 ###
@@ -273,128 +276,128 @@ par(mfrow=c(1,1))
 #
 dev.off()
 
-## VISUALISE INTERACTION ##
-pdf(paste(pto,"/fig_interactions.pdf",sep=""))
-#
-par(mfrow=c(2,2), mar=c(2,2,2,2), oma=c(2,2,2,2))
-main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
-labs = c("Temperature","BOD")
-mainVect = c("a.", "b.")
-
-# ## POSITIVE INTERACTION
-#
-# ## compute effect matrix
-# x  = y = seq(-3,3,0.1)
-# n  = length(x)
-# IM = matrix(rep(0,n),nrow=n,ncol=n)
-# f  = function(x,y,i) (x * y > 0)*2 - 1
-# for(j in 1:n) IM[,j] = f(x,y[j],i)
-# IM = (IM - mean(IM))/sd(IM) * Y_sd
-#
-# ## visualise matrix
-# maxAbsMinMax = max(abs(IM))
-# levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-# colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-# image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-# contour(IM, add=T)
-#
-# ## axis
-# x  = seq(6,18,2)
-# x_ = (x-temp_mean)/temp_sd
-# y  = seq(0,4,1)
-# y_ = (y-bod_mean)/bod_sd
-# axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-# axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-#
-# ## legend
-# legend("top", legend = c("a. Theoretical positive interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-# # legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-#
-# ## outer margin labels
-# mtext(text="BOD", side=2, line=2, las=0)
-# mtext(text="Temperature", side=1, line=2, las=0)
-#
-# ## NEGATIVE INTERACTION
-#
-# ## compute effect matrix
-# x  = y = seq(-3,3,0.1)
-# n  = length(x)
-# IM = matrix(rep(0,n),nrow=n,ncol=n)
-# f  = function(x,y,i) - x * y
-# for(j in 1:n) IM[,j] = f(x,y[j],i)
-# IM = (IM - mean(IM))/sd(IM) * Y_sd
-#
-# ## visualise matrix
-# maxAbsMinMax = max(abs(IM))
-# levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-# colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
-# image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
-# contour(IM, add=T)
-#
-# ## axis
-# x  = seq(6,18,2)
-# x_ = (x-temp_mean)/temp_sd
-# y  = seq(0,4,1)
-# y_ = (y-bod_mean)/bod_sd
-# axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-# axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-#
-# ## legend
-# legend("top", legend = c("b. Theoretical negative interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-# # legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-#
-# ## outer margin labels
-# mtext(text="BOD", side=2, line=2, las=0)
-# mtext(text="Temperature", side=1, line=2, las=0)
-
-## ESTIMATED INTERACTION
-
-for(i in 1:2)
-{
-    ## compute effect matrix
-    x  = y = seq(-3,3,0.1)
-    n  = length(x)
-    IM = matrix(rep(0,n),nrow=n,ncol=n)
-    f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
-    for(j in 1:n) IM[,j] = f(x,y[j],i)
-
-    ## standardise
-    IM_ = IM
-    IM =  IM_ * Y_sd + Y_mean
-    IM_ = (IM_ - mean(IM_))/sd(IM_)
-
-    ## visualise matrix
-    maxAbsMinMax = max(abs(IM_))
-    levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
-    colorLevels = rev(rainbow(1000,start=0.2,end=0.8,alpha=0.5))
-    image(IM_,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2], main = c("Streams", "Lakes")[i])
-    contour(IM,add=T)
-
-    ## axis
-    x  = seq(6,18,2)
-    x_ = (x-temp_mean)/temp_sd
-    y  = seq(0,4,1)
-    y_ = (y-bod_mean)/bod_sd
-    axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
-    axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
-
-    ## legend
-    # legend("top", legend = c("a. Estimated interaction in streams", "b. Estimated interaction in lakes")[i], bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
-    # add the label above the plot
-    x <- par("usr")[2] - 0.05  # Adjust the x-coordinate as needed
-    y <- par("usr")[4] + 0.05  # Adjust the y-coordinate to position it above the plot
-    mtext(text = mainVect[i], side = 3, line = 1, at = x, cex = 1.25)
-
-
-    ## outer margin labels
-    mtext(text="BOD", side=2, line=2, las=0)
-    mtext(text="Temperature", side=1, line=2, las=0)
-
-}
-
-par(mfrow=c(1,1))
-#
-dev.off()
+# ## VISUALISE INTERACTION ##
+# pdf(paste(pto,"/fig_interactions.pdf",sep=""))
+# #
+# par(mfrow=c(2,2), mar=c(2,2,2,2), oma=c(2,2,2,2))
+# main = c(paste(response," in streams"),paste(response," in lakes",sep=""))
+# labs = c("Temperature","BOD")
+# mainVect = c("a.", "b.")
+# 
+# # ## POSITIVE INTERACTION
+# #
+# # ## compute effect matrix
+# # x  = y = seq(-3,3,0.1)
+# # n  = length(x)
+# # IM = matrix(rep(0,n),nrow=n,ncol=n)
+# # f  = function(x,y,i) (x * y > 0)*2 - 1
+# # for(j in 1:n) IM[,j] = f(x,y[j],i)
+# # IM = (IM - mean(IM))/sd(IM) * Y_sd
+# #
+# # ## visualise matrix
+# # maxAbsMinMax = max(abs(IM))
+# # levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+# # colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+# # image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+# # contour(IM, add=T)
+# #
+# # ## axis
+# # x  = seq(6,18,2)
+# # x_ = (x-temp_mean)/temp_sd
+# # y  = seq(0,4,1)
+# # y_ = (y-bod_mean)/bod_sd
+# # axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+# # axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# #
+# # ## legend
+# # legend("top", legend = c("a. Theoretical positive interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # # legend("bottomright", legend = "Expected Positive Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# #
+# # ## outer margin labels
+# # mtext(text="BOD", side=2, line=2, las=0)
+# # mtext(text="Temperature", side=1, line=2, las=0)
+# #
+# # ## NEGATIVE INTERACTION
+# #
+# # ## compute effect matrix
+# # x  = y = seq(-3,3,0.1)
+# # n  = length(x)
+# # IM = matrix(rep(0,n),nrow=n,ncol=n)
+# # f  = function(x,y,i) - x * y
+# # for(j in 1:n) IM[,j] = f(x,y[j],i)
+# # IM = (IM - mean(IM))/sd(IM) * Y_sd
+# #
+# # ## visualise matrix
+# # maxAbsMinMax = max(abs(IM))
+# # levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+# # colorLevels = rev(rainbow(1000,start=0,end=1,alpha=0.5))
+# # image(IM,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2])
+# # contour(IM, add=T)
+# #
+# # ## axis
+# # x  = seq(6,18,2)
+# # x_ = (x-temp_mean)/temp_sd
+# # y  = seq(0,4,1)
+# # y_ = (y-bod_mean)/bod_sd
+# # axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+# # axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# #
+# # ## legend
+# # legend("top", legend = c("b. Theoretical negative interaction"), bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# # # legend("bottomright", legend = "Expected Negative Interaction", bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+# #
+# # ## outer margin labels
+# # mtext(text="BOD", side=2, line=2, las=0)
+# # mtext(text="Temperature", side=1, line=2, las=0)
+# 
+# ## ESTIMATED INTERACTION
+# 
+# for(i in 1:2)
+# {
+#     ## compute effect matrix
+#     x  = y = seq(-3,3,0.1)
+#     n  = length(x)
+#     IM = matrix(rep(0,n),nrow=n,ncol=n)
+#     f  = function(x,y,i) chainList.apply(chainList_thinned,function(x_) Yhat(X_pred(x,y,i),x_[-1][idx_omega_beta]*nscode))$f_mean
+#     for(j in 1:n) IM[,j] = f(x,y[j],i)
+# 
+#     ## standardise
+#     IM_ = IM
+#     IM =  IM_ * Y_sd + Y_mean
+#     IM_ = (IM_ - mean(IM_))/sd(IM_)
+# 
+#     ## visualise matrix
+#     maxAbsMinMax = max(abs(IM_))
+#     levels = seq(-maxAbsMinMax,maxAbsMinMax,2*maxAbsMinMax/1000)
+#     colorLevels = rev(rainbow(1000,start=0.2,end=0.8,alpha=0.5))
+#     image(IM_,breaks=levels,col=colorLevels,xaxt="n",yaxt="n",xlab=labs[1],ylab=labs[2], main = c("Streams", "Lakes")[i])
+#     contour(IM,add=T)
+# 
+#     ## axis
+#     x  = seq(6,18,2)
+#     x_ = (x-temp_mean)/temp_sd
+#     y  = seq(0,4,1)
+#     y_ = (y-bod_mean)/bod_sd
+#     axis(1,label=round(x,2),at=(x_-min(x_))/(max(x_)-min(x_)))
+#     axis(2,label=round(y,2),at=(y_-min(y_))/(max(y_)-min(y_)))
+# 
+#     ## legend
+#     # legend("top", legend = c("a. Estimated interaction in streams", "b. Estimated interaction in lakes")[i], bg=adjustcolor("white", alpha=0.75), box.lwd = 0)
+#     # add the label above the plot
+#     x <- par("usr")[2] - 0.05  # Adjust the x-coordinate as needed
+#     y <- par("usr")[4] + 0.05  # Adjust the y-coordinate to position it above the plot
+#     mtext(text = mainVect[i], side = 3, line = 1, at = x, cex = 1.25)
+# 
+# 
+#     ## outer margin labels
+#     mtext(text="BOD", side=2, line=2, las=0)
+#     mtext(text="Temperature", side=1, line=2, las=0)
+# 
+# }
+# 
+# par(mfrow=c(1,1))
+# #
+# dev.off()
 
 ## VISUALISE MISSING VS OBSERVED BOD ##
 pdf(paste(pto,"/fig_hist_missing_bod.pdf",sep=""))
@@ -546,73 +549,6 @@ for(i in 1:length(chainList_thinned))
 pdf(paste(pto,"/fig_postPlot_rho.pdf",sep="")); chainList.postPlot(chainList_,1000); dev.off()
 pdf(paste(pto,"/fig_bayesPlot_rho.pdf",sep="")); chainList.bayesPlot(chainList_); dev.off()
 pdf(paste(pto,"/fig_tracePlot_rho.pdf",sep="")); chainList.tracePlot(chainList_); dev.off()
-
-## COMPUTE SPATIAL CORRELATIONS IN RESIDUALS ##
-long_obs = long[-idx_mis]
-long_mis = long[ idx_mis]
-latt_obs = latt[-idx_mis]
-latt_mis = latt[ idx_mis]
-x_       = c(long_obs,long_mis)
-y_       = c(latt_obs,latt_mis)
-#
-## compute distance matrix
-D        = matrix(rep(0,length(x_)^2),ncol=length(x_),nrow=length(x_))
-for(i in 1:length(x_))
-{
-    for(j in 1:length(y_))
-    {
-        D[i,j] = sqrt((x_[i] - x_[j])^2 + (y_[i] - y_[j])^2)
-    }
-}
-res_ = c(res_obs,res_mis)
-#
-## compute correlation between residuals with distance
-rho_    = NULL
-d_      = NULL
-for(i in 1:100)
-{
-    idx   = order(D[i,])
-    res_i = res_[idx]
-    x_i   = x_[idx]
-    y_i   = y_[idx]
-    rho_i = NULL
-    d_i   = NULL
-    for(j in c(seq(1,10,1),seq(10,100,10),seq(100,2000,100)))
-    {
-        ## correlation
-        res_il  = c(res_i,rep(NA,j))
-        res_ir  = c(rep(NA,j),res_i)
-        s       = !is.na(res_il*res_ir)
-        rho_ij  = cor(res_il[s],res_ir[s])
-        #
-        ## distance
-        x_il   = c(x_i,rep(NA,j))
-        x_ir   = c(rep(NA,j),x_i)
-        y_il   = c(y_i,rep(NA,j))
-        y_ir   = c(rep(NA,j),y_i)
-        s      = !is.na(x_il*x_ir)
-        d_ij   = mean(sqrt((x_il[s]-x_ir[s])^2 + (y_il[s]-y_ir[s])^2))
-        #
-        ## concatenate
-        rho_i = c(rho_i,rho_ij)
-        d_i   = c(  d_i,  d_ij)
-    }
-    rho_ = rbind(rho_,rho_i)
-    d_   = rbind(d_,d_i)
-}
-rho_mean = apply(rho_,2,mean)
-rho_sd   = apply(rho_,2,sd)
-d_mean   = apply(  d_,2,mean)
-#
-## visualise correlation with distance
-pdf(paste(pto,"/fig_spatial_autocorrelations.pdf",sep=""));
-x = d_mean
-y = rho_mean
-plot(x, y, xlim=c(min(D),max(D)), ylim=c(0,1), xaxt="n", yaxt="n", bty="l")
-add_axes_and_grid(x, y, alpha=c(1, 0.1))
-polygon(x=c(d_mean,rev(d_mean)),y=c(rho_mean+2*rho_sd,rev(rho_mean-2*rho_sd)),border=NA,col=grey(0.5,alpha=0.25))
-lines(d_mean,rho_mean,col="red")
-dev.off()
 
 #
 ###
