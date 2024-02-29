@@ -66,8 +66,8 @@ add_axes_and_grid = function(x, y, alpha)
 ##############
 
 ## load module
-source("m1_con_load.r")
-# source("m1_mTL_load.r")
+# source("m1_con_load.r")
+source("m1_mTL_load.r")
 
 #
 ###
@@ -159,12 +159,12 @@ for(i in 1:2)
   ## data
   points(X[X[,2]==i-1,3], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
   # points(X[X[,2]==i-1,3], Y[X[,2]==i-1], pch=16, col=adjustcolor("black",alpha=0.25))
-  colour_index = X[X[,2]==i-1,6]
-  colour_index = (colour_index > quantile(colour_index, 0.95))
-  points(X[X[,2]==i-1,3][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("green",alpha=0.5), cex=0.75)
-  colour_index = X[X[,2]==i-1,6]
-  colour_index = (colour_index < quantile(colour_index, 0.05))
-  points(X[X[,2]==i-1,3][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("blue",alpha=0.5), cex=0.75)
+  # colour_index = X[X[,2]==i-1,6]
+  # colour_index = (colour_index > quantile(colour_index, 0.95))
+  # points(X[X[,2]==i-1,3][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("green",alpha=0.5), cex=0.75)
+  # colour_index = X[X[,2]==i-1,6]
+  # colour_index = (colour_index < quantile(colour_index, 0.05))
+  # points(X[X[,2]==i-1,3][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("blue",alpha=0.5), cex=0.75)
   
   ## predictions
   Y_ = c(-2,2)
@@ -240,12 +240,12 @@ for(i in 1:2)
   ## data
   points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=grey(runif(length(Y[X[,2]==i-1]), 0.25, 1), alpha=0.5))
   # points(X[X[,2]==i-1,6], Y[X[,2]==i-1], pch=16, col=adjustcolor("black",alpha=0.25))
-  colour_index = X[X[,2]==i-1,3]
-  colour_index = (colour_index > quantile(colour_index, 0.95))
-  points(X[X[,2]==i-1,6][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("green",alpha=0.5), cex=0.75)
-  colour_index = X[X[,2]==i-1,3]
-  colour_index = (colour_index < quantile(colour_index, 0.05))
-  points(X[X[,2]==i-1,6][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("blue",alpha=0.5), cex=0.75)
+  # colour_index = X[X[,2]==i-1,3]
+  # colour_index = (colour_index > quantile(colour_index, 0.95))
+  # points(X[X[,2]==i-1,6][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("green",alpha=0.5), cex=0.75)
+  # colour_index = X[X[,2]==i-1,3]
+  # colour_index = (colour_index < quantile(colour_index, 0.05))
+  # points(X[X[,2]==i-1,6][colour_index], Y[X[,2]==i-1][colour_index], pch=16, col=adjustcolor("blue",alpha=0.5), cex=0.75)
   
   ## predictions
   Y_ = c(-2,2)
