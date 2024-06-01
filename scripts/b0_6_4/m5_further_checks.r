@@ -6,16 +6,6 @@
 
 ## author: Willem Bonnaffe (w.bonnaffe@gmail.com)
 
-## update log:
-## 07-07-2022 - created v0_0
-## 11-07-2022 - created v0_1
-##            - split missing covariate matrix into left and right component
-##            - added plot of the interaction
-## 10-09-2022 - created v0_2
-##            - updated figures
-## 25-08-2023 - created v0_3
-##            - improved figures
-
 ###############
 ## FUNCTIONS ##
 ###############

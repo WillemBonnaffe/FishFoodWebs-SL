@@ -16,6 +16,8 @@
 
 ## goal: function for bayesian analysis
 
+## author: Willem Bonnaffe (w.bonnaffe@gmail.com)
+
 #####################
 ## chainList.apply ##
 #####################

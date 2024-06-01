@@ -7,10 +7,6 @@
 
 ## author: Willem Bonnaffe (w.bonnaffe@gmail.com)
 
-## update log:
-## 08-07-2022 - created v0_0
-## 11-07-2022 - created v0_1
-
 ###############
 ## FUNCTIONS ##
 ###############
