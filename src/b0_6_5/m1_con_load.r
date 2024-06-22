@@ -18,10 +18,6 @@
 ## INITIATE ##
 ##############
 
-## set path to root directory
-pt_root = "/Users/willembonnaffe/Documents/GitHub/RESOTRO/scripts/b0_6_5" # Change this to local path
-setwd(pt_root)
-
 ## library
 library(mvtnorm)
 
